@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Summer Archive — 相册开场</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* 自托管字体：本地 woff2，渲染不依赖网络（本机拉取 Google Fonts 不可达） */
+      @font-face {
+        font-family: "League Gothic";
+        font-weight: 400;
+        src: url("assets/fonts/league-gothic-latin-400-normal.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-weight: 400;
+        src: url("assets/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-weight: 700;
+        src: url("assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2");
+      }
+      /* 系统自带中文字体：仅声明 local 源即可满足渲染器字体解析 */
+      @font-face {
+        font-family: "PingFang SC";
+        src: local("PingFang SC");
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #111013; /* 暖黑，向琥珀色调靠拢 */
+      }
+      body {
+        font-family: "PingFang SC", "Noto Sans JP", sans-serif;
+        color: #f2ede4;
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .display {
+        font-family: "League Gothic", sans-serif;
+        font-weight: 400; /* League Gothic 仅有 400 */
+        text-transform: uppercase;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+
+      /* ========== 共享背景层（非 clip，整段可见）：模糊放大的照片显影残影 ========== */
+      #bg-stack {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        transform: scale(1.16); /* 基准放大，时间轴上再缓慢漂移 */
+      }
+      /* 背景用 background-image（而非 <img>），避免与前景卡片形成重复媒体节点 */
+      .bg-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0; /* 各自在时间轴上慢半拍浮现 */
+        background-size: cover;
+        background-position: center;
+        filter: blur(46px) brightness(0.52) saturate(1.12);
+      }
+      #bg-1 { background-image: url("assets/photo-1.jpg"); }
+      #bg-2 { background-image: url("assets/photo-2.jpg"); }
+      #bg-3 { background-image: url("assets/photo-3.jpg"); }
+      #bg-4 { background-image: url("assets/photo-4.jpg"); }
+      #grain {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0.08;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+      }
+      #vignette {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background: radial-gradient(ellipse 118% 105% at 62% 46%, transparent 55%, rgba(8, 7, 10, 0.62) 100%);
+      }
+      /* 幽灵大字：拍摄日期，藏在照片卡后面 */
+      #ghost {
+        position: absolute;
+        z-index: 3;
+        right: -20px;
+        bottom: -96px;
+        font-size: 430px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        color: rgba(242, 237, 228, 0.1);
+        white-space: nowrap;
+      }
+
+      /* ========== 右侧照片区（deck） ========== */
+      #deck {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 420px;
+        right: 0;
+        z-index: 4;
+      }
+      .card-slot {
+        position: absolute;
+        top: 96px;
+        left: 100px;
+        width: 1300px;
+        aspect-ratio: 16 / 9;
+      }
+      .photo-card {
+        position: absolute;
+        inset: 0;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 2px solid rgba(242, 237, 228, 0.1);
+        box-shadow:
+          0 40px 90px rgba(0, 0, 0, 0.55),
+          0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+      .photo-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      /* 卡片左上角的底片编号章 */
+      .frame-chip {
+        position: absolute;
+        top: 22px;
+        left: 22px;
+        padding: 8px 14px;
+        font-size: 19px;
+        letter-spacing: 0.08em;
+        color: #f5a13d;
+        background: rgba(12, 11, 14, 0.66);
+        border: 1px solid rgba(245, 161, 61, 0.34);
+        border-radius: 5px;
+        backdrop-filter: blur(6px);
+      }
+      /* 取景框角标（前景细节，琥珀色） */
+      .bracket {
+        position: absolute;
+        z-index: 5;
+        width: 46px;
+        height: 46px;
+        border: 3px solid rgba(245, 161, 61, 0.55);
+        opacity: 0.9;
+      }
+      #bk-tl { top: 62px; left: 66px; border-right: none; border-bottom: none; }
+      #bk-tr { top: 62px; right: 66px; border-left: none; border-bottom: none; }
+      #bk-bl { bottom: 62px; left: 66px; border-right: none; border-top: none; }
+      #bk-br { bottom: 62px; right: 66px; border-left: none; border-top: none; }
+
+      /* 计数器 + 进度刻度（卡片下方，右对齐） */
+      #counter {
+        position: absolute;
+        right: 122px;
+        bottom: 118px;
+        z-index: 6;
+        display: flex;
+        align-items: center;
+        gap: 26px;
+      }
+      #ticks {
+        display: flex;
+        gap: 10px;
+      }
+      .tick {
+        width: 42px;
+        height: 4px;
+        background: rgba(242, 237, 228, 0.18);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .tick i {
+        display: block; /* 变换元素必须是块级且有尺寸 */
+        width: 100%;
+        height: 100%;
+        background: #f5a13d;
+        transform: scaleX(0);
+        transform-origin: left center;
+      }
+      #count-nums {
+        position: relative;
+        width: 130px;
+        height: 34px;
+        font-size: 27px;
+        letter-spacing: 0.06em;
+        color: #f2ede4;
+      }
+      .cnt {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        text-align: right;
+      }
+      .cnt em {
+        font-style: normal;
+        color: rgba(242, 237, 228, 0.62);
+      }
+      /* 右上角拍摄批次信息 */
+      #shoot-meta {
+        position: absolute;
+        top: 56px;
+        right: 122px;
+        z-index: 6;
+        font-size: 19px;
+        letter-spacing: 0.12em;
+        color: rgba(242, 237, 228, 0.88);
+        text-shadow: 0 1px 14px rgba(8, 7, 10, 0.7); /* 亮背景照片时段保持可读 */
+      }
+
+      /* ========== 左侧固定目录栏 ========== */
+      #rail {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 420px;
+        z-index: 7;
+        display: flex;
+        flex-direction: column;
+        padding: 84px 52px 64px;
+        background: rgba(14, 13, 17, 0.58);
+        backdrop-filter: blur(26px);
+        border-right: 1px solid rgba(245, 161, 61, 0.16);
+      }
+      #kicker {
+        font-size: 18px;
+        letter-spacing: 0.28em;
+        color: #f5a13d;
+      }
+      #album-title {
+        margin-top: 22px;
+        font-size: 96px;
+        line-height: 0.92;
+        letter-spacing: 0.01em;
+      }
+      #album-sub {
+        margin-top: 18px;
+        font-size: 23px;
+        letter-spacing: 0.34em;
+        color: rgba(242, 237, 228, 0.62);
+      }
+      #toc {
+        margin-top: 74px;
+        display: flex;
+        flex-direction: column;
+        gap: 34px;
+        list-style: none;
+      }
+      .toc-item {
+        position: relative;
+        padding-left: 30px;
+      }
+      /* 当前条目的琥珀色指示条 */
+      .toc-item .marker {
+        position: absolute;
+        left: 0;
+        top: 6px;
+        bottom: 6px;
+        width: 4px;
+        background: #f5a13d;
+        border-radius: 2px;
+        transform: scaleY(0);
+        transform-origin: top center;
+      }
+      .toc-item .idx {
+        font-size: 17px;
+        letter-spacing: 0.14em;
+        color: rgba(242, 237, 228, 0.6);
+      }
+      .toc-item .en {
+        margin-top: 4px;
+        font-size: 44px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        color: rgba(242, 237, 228, 0.42); /* 未激活态；激活由时间轴点亮 */
+      }
+      .toc-item .cn {
+        margin-top: 6px;
+        font-size: 18px;
+        letter-spacing: 0.2em;
+        color: rgba(242, 237, 228, 0.58);
+      }
+      #rail-meta {
+        margin-top: auto;
+        font-size: 16px;
+        line-height: 1.9;
+        letter-spacing: 0.1em;
+        color: rgba(242, 237, 228, 0.62);
+      }
+      #rail-progress {
+        margin-top: 18px;
+        height: 3px;
+        background: rgba(242, 237, 228, 0.14);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      #rail-progress i {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #f5a13d;
+        transform: scaleX(0);
+        transform-origin: left center;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="10"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- 共享背景：四张照片的模糊放大版，时间轴驱动、慢半拍轮换 -->
+      <div id="bg-stack">
+        <div class="bg-slide" id="bg-1"></div>
+        <div class="bg-slide" id="bg-2"></div>
+        <div class="bg-slide" id="bg-3"></div>
+        <div class="bg-slide" id="bg-4"></div>
+      </div>
+      <div id="grain"></div>
+      <div id="vignette"></div>
+      <!-- 幽灵大字有意出血到画布外（已用快照确认效果） -->
+      <div id="ghost" class="display" data-layout-allow-overflow>06·27</div>
+
+      <!-- 右侧照片区：整段作为一个 clip，内部轮换由时间轴驱动 -->
+      <section id="deck" class="clip" data-start="0" data-duration="10" data-track-index="1">
+        <div class="card-slot">
+          <figure class="photo-card" data-layout-allow-overflow id="card-1">
+            <img data-layout-allow-overflow id="fg-img-1" src="assets/photo-1.jpg" alt="后台一刻" />
+            <figcaption class="frame-chip mono" data-layout-allow-overlap data-layout-allow-overflow>DSC05792</figcaption>
+          </figure>
+          <figure class="photo-card" data-layout-allow-overflow id="card-2">
+            <img data-layout-allow-overflow id="fg-img-2" src="assets/photo-2.jpg" alt="红砖人像" />
+            <figcaption class="frame-chip mono" data-layout-allow-overlap data-layout-allow-overflow>DSC05848</figcaption>
+          </figure>
+          <figure class="photo-card" data-layout-allow-overflow id="card-3">
+            <img data-layout-allow-overflow id="fg-img-3" src="assets/photo-3.jpg" alt="操场同行" />
+            <figcaption class="frame-chip mono" data-layout-allow-overlap data-layout-allow-overflow>DSC05863</figcaption>
+          </figure>
+          <figure class="photo-card" data-layout-allow-overflow id="card-4">
+            <img data-layout-allow-overflow id="fg-img-4" src="assets/photo-4.jpg" alt="街角剪影" />
+            <figcaption class="frame-chip mono" data-layout-allow-overlap data-layout-allow-overflow>DSC05957</figcaption>
+          </figure>
+        </div>
+
+        <div class="bracket" id="bk-tl"></div>
+        <div class="bracket" id="bk-tr"></div>
+        <div class="bracket" id="bk-bl"></div>
+        <div class="bracket" id="bk-br"></div>
+
+        <div id="shoot-meta" class="mono">REEL 01 · 46 FRAMES · 4 SELECTS</div>
+
+        <div id="counter">
+          <div id="ticks">
+            <span class="tick"><i id="tick-1"></i></span>
+            <span class="tick"><i id="tick-2"></i></span>
+            <span class="tick"><i id="tick-3"></i></span>
+            <span class="tick"><i id="tick-4"></i></span>
+          </div>
+          <div id="count-nums" class="mono">
+            <span class="cnt" id="cnt-1">01 <em>/ 04</em></span>
+            <span class="cnt" id="cnt-2">02 <em>/ 04</em></span>
+            <span class="cnt" id="cnt-3">03 <em>/ 04</em></span>
+            <span class="cnt" id="cnt-4">04 <em>/ 04</em></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 左侧固定目录栏：常驻层（非 clip），由时间轴驱动入场 -->
+      <aside id="rail">
+        <div id="kicker" class="mono">PHOTO DELIVERY — 2026.06.27</div>
+        <h1 id="album-title" class="display">Summer<br />Archive</h1>
+        <div id="album-sub">夏日拾光 · 精选集</div>
+
+        <ol id="toc">
+          <li class="toc-item" id="toc-1">
+            <span class="marker" id="mk-1"></span>
+            <div class="idx mono">01</div>
+            <div class="en display" id="en-1">Backstage</div>
+            <div class="cn" id="cn-1">后台一刻</div>
+          </li>
+          <li class="toc-item" id="toc-2">
+            <span class="marker" id="mk-2"></span>
+            <div class="idx mono">02</div>
+            <div class="en display" id="en-2">Portrait</div>
+            <div class="cn" id="cn-2">红砖人像</div>
+          </li>
+          <li class="toc-item" id="toc-3">
+            <span class="marker" id="mk-3"></span>
+            <div class="idx mono">03</div>
+            <div class="en display" id="en-3">Field Day</div>
+            <div class="cn" id="cn-3">操场同行</div>
+          </li>
+          <li class="toc-item" id="toc-4">
+            <span class="marker" id="mk-4"></span>
+            <div class="idx mono">04</div>
+            <div class="en display" id="en-4">Silhouette</div>
+            <div class="cn" id="cn-4">街角剪影</div>
+          </li>
+        </ol>
+
+        <div id="rail-meta" class="mono">
+          SONY ZV-E10 · E 35MM F1.8<br />
+          SHANGHAI · 15:14 — 17:00 CST
+        </div>
+        <div id="rail-progress"><i id="progress-fill"></i></div>
+      </aside>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ===== 节拍表：每张照片一拍 2.25s，先快后慢滑入，背景慢半拍（+0.45s）=====
+      const BEAT = 2.25;
+      const T = [0.9, 0.9 + BEAT, 0.9 + BEAT * 2, 0.9 + BEAT * 3]; // 0.9 / 3.15 / 5.4 / 7.65
+      const ACCENT = "#f5a13d";
+      const DIM = "rgba(242, 237, 228, 0.42)"; // 未激活英文标题保持低亮，维持层级
+      const DIM_CN = "rgba(242, 237, 228, 0.58)";
+
+      // ===== 开场：背景从黑显影，目录栏滑入 =====
+      tl.fromTo("#bg-1", { opacity: 0 }, { opacity: 1, duration: 1.5, ease: "sine.out" }, 0);
+      tl.fromTo(
+        "#rail",
+        { x: -110, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.85, ease: "power3.out" },
+        0.12
+      );
+      tl.from(
+        ["#kicker", "#album-title", "#album-sub", ".toc-item", "#rail-meta", "#rail-progress"],
+        { y: 26, opacity: 0, duration: 0.6, ease: "power2.out", stagger: 0.07 },
+        0.3
+      );
+      // 角标入场只动 opacity —— scale 由下方呼吸动画独占，避免同属性重叠
+      tl.from(".bracket", { opacity: 0, duration: 0.7, ease: "power2.out" }, 0.55);
+      tl.from("#shoot-meta", { y: -18, opacity: 0, duration: 0.6, ease: "power2.out" }, 0.62);
+      tl.from("#ghost", { opacity: 0, duration: 1.2, ease: "sine.out" }, 0.5);
+      tl.from("#counter", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, 0.7);
+
+      // ===== 整段环境运动（丝滑感的底味）=====
+      // 背景缓慢推近；幽灵大字反向漂移；目录进度条匀速填满
+      tl.fromTo("#bg-stack", { scale: 1.16 }, { scale: 1.24, duration: 10, ease: "none" }, 0);
+      tl.fromTo("#ghost", { x: 0 }, { x: -64, duration: 10, ease: "none" }, 0);
+      tl.fromTo(
+        "#progress-fill",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 10, ease: "none" },
+        0
+      );
+      // 取景框角标呼吸（有限次数，0.4 + 1.6×6 = 10.0，不越界）
+      tl.to(
+        ".bracket",
+        { scale: 1.04, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 5 },
+        0.4
+      );
+
+      // ===== 四拍轮换 =====
+      for (let i = 0; i < 4; i++) {
+        const t = T[i];
+        const n = i + 1;
+        const kenBurns = Math.min(2.6, 10 - t); // 末拍收在 10s 内
+
+        // 照片卡从右滑入：先快后慢（power4.out），带一丝缩放回落
+        tl.fromTo(
+          `#card-${n}`,
+          { x: 1560, scale: 1.03 },
+          { x: 0, scale: 1, duration: 1.15, ease: "power4.out" },
+          t
+        );
+        // 上一张让位：轻推向左并淡出
+        if (i > 0) {
+          tl.to(
+            `#card-${i}`,
+            { x: -150, opacity: 0, duration: 0.6, ease: "power2.inOut" },
+            t + 0.05
+          );
+        }
+        // 停留期的 Ken Burns 微推近
+        tl.fromTo(
+          `#fg-img-${n}`,
+          { scale: 1 },
+          { scale: 1.07, duration: kenBurns, ease: "none" },
+          t
+        );
+        // 背景慢半拍：晚 0.45s 起、1.6s 缓慢显影（首张已在开场处理）
+        if (i > 0) {
+          tl.fromTo(
+            `#bg-${n}`,
+            { opacity: 0 },
+            { opacity: 1, duration: 1.6, ease: "sine.inOut" },
+            t + 0.45
+          );
+        }
+
+        // 目录联动：点亮当前条目，熄灭上一条
+        tl.fromTo(
+          `#mk-${n}`,
+          { scaleY: 0 },
+          { scaleY: 1, duration: 0.5, ease: "power3.out" },
+          t
+        );
+        tl.to(`#en-${n}`, { color: "#f2ede4", duration: 0.4, ease: "power2.out" }, t);
+        tl.to(`#cn-${n}`, { color: ACCENT, duration: 0.4, ease: "power2.out" }, t);
+        if (i > 0) {
+          tl.to(`#mk-${i}`, { scaleY: 0, duration: 0.35, ease: "power2.in" }, t);
+          tl.to(`#en-${i}`, { color: DIM, duration: 0.4, ease: "power2.out" }, t);
+          tl.to(`#cn-${i}`, { color: DIM_CN, duration: 0.4, ease: "power2.out" }, t);
+        }
+
+        // 计数器翻页 + 刻度填充
+        tl.fromTo(
+          `#cnt-${n}`,
+          { y: 16, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.45, ease: "power2.out" },
+          t + 0.1
+        );
+        if (i > 0) {
+          tl.to(`#cnt-${i}`, { y: -14, opacity: 0, duration: 0.35, ease: "power2.in" }, t);
+        }
+        tl.fromTo(
+          `#tick-${n}`,
+          { scaleX: 0 },
+          { scaleX: 1, duration: 0.55, ease: "power3.out" },
+          t + 0.12
+        );
+      }
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

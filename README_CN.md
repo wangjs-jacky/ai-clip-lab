@@ -24,6 +24,7 @@ ai-clip-lab/
 
 | # | Demo | 状态 |
 |---|------|------|
+| 06 | [HyperFrames 相册开场动画](./demos/06-hyperframes-opening/) —— 左侧固定目录栏、照片先快后慢滑入、模糊背景慢半拍轮换 | ✅ 可运行 |
 | — | 完整候选清单见 [docs/roadmap.md](./docs/roadmap.md) | 🚧 规划中 |
 
 demo 落地后会逐个补进这张表。状态图例：🚧 规划中 · 🧪 开发中 · ✅ 可运行。

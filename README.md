@@ -24,6 +24,7 @@ ai-clip-lab/
 
 | # | Demo | Status |
 |---|------|--------|
+| 06 | [HyperFrames album opening title](./demos/06-hyperframes-opening/) — fixed left index rail, photos sliding in with ease-out, blurred background lagging half a beat | ✅ runnable |
 | — | See [docs/roadmap.md](./docs/roadmap.md) for the full candidate list | 🚧 planning |
 
 Demos will appear here as they land. Status legend: 🚧 planning · 🧪 in progress · ✅ runnable.

@@ -4,7 +4,9 @@
 
 | 目录 | 说明 | 状态 |
 |------|------|------|
-| —    | 暂无，候选方向见 [../docs/roadmap.md](../docs/roadmap.md) | 🚧 |
+| [06-hyperframes-opening](./06-hyperframes-opening/) | HyperFrames 相册开场动画：左侧目录栏 + 照片先快后慢滑入 + 模糊背景慢半拍轮换，HTML 即视频 | ✅ |
+
+其余候选方向见 [../docs/roadmap.md](../docs/roadmap.md)。
 
 ## 新增 demo 步骤
 
