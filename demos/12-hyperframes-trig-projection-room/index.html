@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>Phase Observatory — Trig Projection Room</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "League Gothic";
+        font-weight: 400;
+        src: url("assets/fonts/league-gothic-latin-400-normal.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-weight: 400;
+        src: url("assets/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-weight: 700;
+        src: url("assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2");
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --ink: #eafff8;
+        --muted: #78958d;
+        --grid: rgba(119, 255, 209, 0.1);
+        --mint: #77ffd1;
+        --cyan: #57e6ff;
+        --pink: #ff5ca8;
+        --amber: #f9c74f;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #03090b;
+      }
+
+      body {
+        color: var(--ink);
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        isolation: isolate;
+        background:
+          radial-gradient(circle at 68% 45%, rgba(40, 102, 91, 0.19), transparent 38%),
+          linear-gradient(135deg, #061012 0%, #020608 72%);
+      }
+
+      #root::before {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        content: "";
+        opacity: 0.32;
+        background-image:
+          linear-gradient(rgba(119, 255, 209, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(119, 255, 209, 0.035) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: linear-gradient(to right, transparent 6%, black 30%, black 90%, transparent);
+      }
+
+      #root::after {
+        position: absolute;
+        inset: 0;
+        z-index: 8;
+        pointer-events: none;
+        content: "";
+        opacity: 0.14;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.04) 0,
+          rgba(255, 255, 255, 0.04) 1px,
+          transparent 1px,
+          transparent 5px
+        );
+        mix-blend-mode: soft-light;
+      }
+
+      #projection-canvas {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        width: 1920px;
+        height: 1080px;
+      }
+
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      #masthead {
+        position: absolute;
+        top: 52px;
+        left: 70px;
+        z-index: 4;
+        width: 320px;
+      }
+
+      #eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--mint);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+      }
+
+      #eyebrow::before {
+        width: 38px;
+        height: 2px;
+        content: "";
+        background: var(--mint);
+        box-shadow: 0 0 14px rgba(119, 255, 209, 0.8);
+      }
+
+      h1 {
+        margin-top: 22px;
+        font-family: "League Gothic", sans-serif;
+        font-size: 76px;
+        font-weight: 600;
+        line-height: 0.88;
+        letter-spacing: -0.045em;
+        text-transform: uppercase;
+      }
+
+      h1 span {
+        display: block;
+        color: rgba(234, 255, 248, 0.38);
+      }
+
+      #formula-card {
+        position: absolute;
+        top: 300px;
+        left: 70px;
+        z-index: 4;
+        width: 284px;
+        padding: 24px 24px 22px;
+        border: 1px solid rgba(119, 255, 209, 0.16);
+        border-radius: 2px;
+        background: linear-gradient(145deg, rgba(15, 35, 36, 0.86), rgba(4, 12, 14, 0.54));
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(18px);
+      }
+
+      .card-label {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      #theta-readout {
+        margin-top: 17px;
+        color: var(--amber);
+        font-size: 42px;
+        font-weight: 600;
+        letter-spacing: -0.04em;
+      }
+
+      #theta-readout small {
+        color: rgba(249, 199, 79, 0.78);
+        font-size: 16px;
+      }
+
+      .component {
+        display: grid;
+        grid-template-columns: 50px 1fr;
+        gap: 14px;
+        align-items: center;
+        margin-top: 18px;
+      }
+
+      .component-name {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+
+      .component-value {
+        font-size: 23px;
+        text-align: right;
+      }
+
+      .sin-color { color: var(--cyan); }
+      .cos-color { color: var(--pink); }
+
+      .meter {
+        position: relative;
+        grid-column: 1 / -1;
+        height: 3px;
+        overflow: hidden;
+        background: rgba(234, 255, 248, 0.1);
+      }
+
+      .meter i {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        display: block;
+        width: 50%;
+        height: 100%;
+        transform-origin: left center;
+      }
+
+      #sin-meter { background: var(--cyan); box-shadow: 0 0 12px rgba(87, 230, 255, 0.6); }
+      #cos-meter { background: var(--pink); box-shadow: 0 0 12px rgba(255, 92, 168, 0.6); }
+
+      #principle {
+        position: absolute;
+        bottom: 78px;
+        left: 70px;
+        z-index: 4;
+        width: 278px;
+        color: rgba(234, 255, 248, 0.54);
+        font-size: 14px;
+        line-height: 1.62;
+        letter-spacing: 0.03em;
+      }
+
+      #principle b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      #stages {
+        position: absolute;
+        top: 54px;
+        right: 68px;
+        z-index: 4;
+        display: flex;
+        gap: 28px;
+        list-style: none;
+      }
+
+      #stages li {
+        position: relative;
+        color: rgba(234, 255, 248, 0.54);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      #stages li::after {
+        position: absolute;
+        right: 0;
+        bottom: -10px;
+        left: 0;
+        height: 2px;
+        content: "";
+        transform: scaleX(0);
+        transform-origin: left center;
+        background: var(--mint);
+      }
+
+      #stages li.active {
+        color: var(--ink);
+      }
+
+      #stages li.active::after {
+        transform: scaleX(1);
+      }
+
+      #phase-marker {
+        position: absolute;
+        right: 72px;
+        bottom: 70px;
+        z-index: 4;
+        display: flex;
+        align-items: flex-end;
+        gap: 18px;
+      }
+
+      #phase-index {
+        color: rgba(234, 255, 248, 0.36);
+        font-family: "League Gothic", sans-serif;
+        font-size: 156px;
+        font-weight: 500;
+        line-height: 0.75;
+        letter-spacing: -0.08em;
+      }
+
+      #phase-copy {
+        padding-bottom: 4px;
+        text-align: right;
+      }
+
+      #phase-copy strong {
+        display: block;
+        color: var(--mint);
+        font-size: 14px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      #phase-copy span {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0.1em;
+      }
+
+      #footer-rule {
+        position: absolute;
+        right: 70px;
+        bottom: 42px;
+        left: 382px;
+        z-index: 4;
+        height: 2px;
+        background: rgba(234, 255, 248, 0.09);
+      }
+
+      #footer-progress {
+        width: 100%;
+        height: 100%;
+        transform: scaleX(0);
+        transform-origin: left center;
+        background: linear-gradient(90deg, var(--amber), var(--cyan), var(--pink));
+        box-shadow: 0 0 18px rgba(87, 230, 255, 0.42);
+      }
+
+      #scan-head {
+        position: absolute;
+        top: 106px;
+        bottom: 118px;
+        left: 382px;
+        z-index: 3;
+        width: 1px;
+        opacity: 0.32;
+        background: linear-gradient(to bottom, transparent, var(--mint) 20%, var(--mint) 80%, transparent);
+        box-shadow: 0 0 20px rgba(119, 255, 209, 0.55);
+      }
+
+      .corner {
+        position: absolute;
+        z-index: 5;
+        width: 30px;
+        height: 30px;
+        border-color: rgba(119, 255, 209, 0.38);
+        border-style: solid;
+      }
+
+      #corner-tl { top: 106px; left: 382px; border-width: 1px 0 0 1px; }
+      #corner-tr { top: 106px; right: 80px; border-width: 1px 1px 0 0; }
+      #corner-bl { bottom: 118px; left: 382px; border-width: 0 0 1px 1px; }
+      #corner-br { right: 80px; bottom: 118px; border-width: 0 1px 1px 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="11" data-width="1920" data-height="1080">
+      <canvas id="projection-canvas" width="1920" height="1080"></canvas>
+
+      <header id="masthead">
+        <div id="eyebrow" class="mono">Field Study 012</div>
+        <h1>Phase <span>Observatory</span></h1>
+      </header>
+
+      <aside id="formula-card">
+        <div class="card-label mono">Single source of truth</div>
+        <div id="theta-readout" class="mono">0.00 <small>RAD</small></div>
+        <div class="component">
+          <span class="component-name sin-color mono">SIN</span>
+          <span id="sin-value" class="component-value sin-color mono">+0.000</span>
+          <span class="meter"><i id="sin-meter"></i></span>
+        </div>
+        <div class="component">
+          <span class="component-name cos-color mono">COS</span>
+          <span id="cos-value" class="component-value cos-color mono">+1.000</span>
+          <span class="meter"><i id="cos-meter"></i></span>
+        </div>
+      </aside>
+
+      <p id="principle"><b>One angle. Three readings.</b><br>同一个相位驱动圆点、后墙高度与地面深度；空间感来自投影，不来自三套互不相关的动画。</p>
+
+      <ol id="stages" class="mono">
+        <li id="stage-construct">01 Construct</li>
+        <li id="stage-map">02 Map</li>
+        <li id="stage-trace">03 Trace</li>
+        <li id="stage-resolve">04 Resolve</li>
+      </ol>
+
+      <div id="phase-marker">
+        <span id="phase-index" class="mono">00</span>
+        <div id="phase-copy" class="mono">
+          <strong id="phase-name">Origin</strong>
+          <span id="time-readout">T+00.00 / 11.00S</span>
+        </div>
+      </div>
+
+      <div id="scan-head"></div>
+      <i class="corner" id="corner-tl"></i>
+      <i class="corner" id="corner-tr"></i>
+      <i class="corner" id="corner-bl"></i>
+      <i class="corner" id="corner-br"></i>
+      <div id="footer-rule"><div id="footer-progress"></div></div>
+    </div>
+
+    <script type="module">
+      import { TAU, drawFrame } from "./projection.js";
+
+      const canvas = document.querySelector("#projection-canvas");
+      const ctx = canvas.getContext("2d");
+      const state = {
+        elapsed: 0,
+        roomReveal: 0,
+        mappingReveal: 0,
+        theta: 0,
+        traceProgress: 0,
+        resolve: 0,
+      };
+
+      const stageNodes = [...document.querySelectorAll("#stages li")];
+      const thetaReadout = document.querySelector("#theta-readout");
+      const sinValue = document.querySelector("#sin-value");
+      const cosValue = document.querySelector("#cos-value");
+      const sinMeter = document.querySelector("#sin-meter");
+      const cosMeter = document.querySelector("#cos-meter");
+      const phaseIndex = document.querySelector("#phase-index");
+      const phaseName = document.querySelector("#phase-name");
+      const timeReadout = document.querySelector("#time-readout");
+      const progress = document.querySelector("#footer-progress");
+      const scanHead = document.querySelector("#scan-head");
+
+      const phaseLabels = ["Origin", "Quarter", "Half", "Three quarter", "Closed loop"];
+
+      function signed(value) {
+        const clean = Math.abs(value) < 0.0005 ? 0 : value;
+        return `${clean >= 0 ? "+" : ""}${clean.toFixed(3)}`;
+      }
+
+      function render() {
+        const model = drawFrame(ctx, state);
+        const elapsed = Math.min(11, Math.max(0, state.elapsed));
+        const stage = elapsed < 1.2 ? 0 : elapsed < 3 ? 1 : elapsed < 9 ? 2 : 3;
+        stageNodes.forEach((node, index) => node.classList.toggle("active", index === stage));
+
+        thetaReadout.innerHTML = `${state.theta.toFixed(2)} <small>RAD</small>`;
+        sinValue.textContent = signed(model.components.sin);
+        cosValue.textContent = signed(model.components.cos);
+        sinMeter.style.transform = `scaleX(${model.components.sin})`;
+        cosMeter.style.transform = `scaleX(${model.components.cos})`;
+
+        const phaseStep = Math.min(4, Math.round(state.traceProgress * 4));
+        phaseIndex.textContent = String(phaseStep).padStart(2, "0");
+        phaseName.textContent = phaseLabels[phaseStep];
+        timeReadout.textContent = `T+${elapsed.toFixed(2).padStart(5, "0")} / 11.00S`;
+        progress.style.transform = `scaleX(${elapsed / 11})`;
+        scanHead.style.transform = `translateX(${(elapsed / 11) * 1458}px)`;
+      }
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo("#masthead", { x: -36, opacity: 0 }, { x: 0, opacity: 1, duration: 0.75, ease: "power3.out" }, 0.12);
+      tl.fromTo("#formula-card", { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: 0.65, ease: "power3.out" }, 0.55);
+      tl.fromTo("#principle", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" }, 0.72);
+      tl.fromTo("#stages li", { y: -12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.42, stagger: 0.08, ease: "power2.out" }, 0.4);
+      tl.fromTo("#phase-marker", { x: 26, opacity: 0 }, { x: 0, opacity: 1, duration: 0.65, ease: "power3.out" }, 1.2);
+      tl.fromTo(".corner", { opacity: 0 }, { opacity: 1, duration: 0.5, stagger: 0.05, ease: "none" }, 0.4);
+
+      tl.to(state, { roomReveal: 1, duration: 1.2, ease: "power2.out", onUpdate: render }, 0);
+      tl.to(state, { mappingReveal: 1, duration: 1.2, ease: "power2.inOut", onUpdate: render }, 1.2);
+      tl.to(state, { theta: TAU, traceProgress: 1, duration: 6, ease: "none", onUpdate: render }, 3);
+      tl.to(state, { resolve: 1, duration: 2, ease: "power2.out", onUpdate: render }, 9);
+      tl.to(state, { elapsed: 11, duration: 11, ease: "none", onUpdate: render }, 0);
+
+      render();
+      window.__timelines.main = tl;
+    </script>
+  </body>
+</html>

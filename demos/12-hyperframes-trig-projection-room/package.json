@@ -1,0 +1,12 @@
+{
+  "name": "12-hyperframes-trig-projection-room",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.7.49 preview",
+    "test": "node --test projection.test.mjs",
+    "check": "node --test projection.test.mjs && npx --yes hyperframes@0.7.49 lint && npx --yes hyperframes@0.7.49 validate && npx --yes hyperframes@0.7.49 inspect",
+    "snapshot": "npx --yes hyperframes@0.7.49 snapshot",
+    "render": "npx --yes hyperframes@0.7.49 render"
+  }
+}

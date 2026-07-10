@@ -18,6 +18,12 @@
 | 08 | 智能横转竖 | 16:9 → 9:16，人脸/说话人跟踪自动取景 | 人脸检测 + ffmpeg crop | 🚧 |
 | 09 | 一键成片 | 素材堆 + 一句话需求 → LLM 编排时间线出片 | LLM + ffmpeg / 编辑 DSL | 🚧 |
 | 10 | AI 抹除/擦除 | 去水印、去路人等视频 inpainting | ProPainter / IOPaint | 🚧 |
+| 11 | 3D 海报墙 | 多组海报沿边缘入场，组装后整体透视倾斜并巡航 | HyperFrames + CSS 3D + GSAP（已做 [demo](../demos/11-hyperframes-3d-poster-wall/)） | ✅ |
+| 12 | 三角函数投影舱 | 同一相位驱动单位圆、正弦墙与余弦地面 | HyperFrames + Canvas 2D（已做 [demo](../demos/12-hyperframes-trig-projection-room/)） | ✅ |
+| 13 | 3D 数据地图 | 把区域数据映射到可旋转、可聚焦的空间地图 | Three.js + GeoJSON | 🚧 |
+| 14 | 连续时间尺 | 固定指针下让刻度、日期与事件沿统一时间轴流动 | DOM/SVG + GSAP | 🚧 |
+| 15 | 排名竞速图 | 用单一进度插值排名、条形长度与数值 | Canvas 2D / SVG | 🚧 |
+| 16 | 挤出式 3D 环形图 | 让环形占比拥有厚度、灯光和可读标签 | Three.js | 🚧 |
 
 > 想到新方向直接往表里加行；开工时把状态改成 🧪 并建对应 `demos/NN-slug/` 目录。
 
