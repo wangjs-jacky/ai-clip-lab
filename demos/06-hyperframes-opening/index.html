@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
     <title>Summer Archive — 相册开场</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
@@ -320,108 +320,108 @@
     </style>
   </head>
   <body>
-    <div
-      id="root"
-      data-composition-id="main"
-      data-start="0"
-      data-duration="10"
-      data-width="1920"
-      data-height="1080"
-    >
+    <div data-hf-id="hf-199x" id="root" data-composition-id="main" data-start="0" data-duration="10" data-width="1920" data-height="1080">
+      <!-- 音轨（必须是组合根的直接子元素）：BGM 全程铺底，whoosh 提前 50ms 领住每次换拍 -->
+      <audio id="bgm-track" data-start="0" data-duration="10" data-track-index="3" data-volume="0.85" src="assets/bgm-carefree.mp3"></audio>
+      <audio id="sfx-whoosh-1" data-start="0.85" data-duration="0.6" data-track-index="4" data-volume="0.3" src="assets/sfx-whoosh.mp3"></audio>
+      <audio id="sfx-whoosh-2" data-start="3.1" data-duration="0.6" data-track-index="4" data-volume="0.3" src="assets/sfx-whoosh.mp3"></audio>
+      <audio id="sfx-whoosh-3" data-start="5.35" data-duration="0.6" data-track-index="4" data-volume="0.3" src="assets/sfx-whoosh.mp3"></audio>
+      <audio id="sfx-whoosh-4" data-start="7.6" data-duration="0.6" data-track-index="4" data-volume="0.3" src="assets/sfx-whoosh.mp3"></audio>
+
       <!-- 共享背景：四张照片的模糊放大版，时间轴驱动、慢半拍轮换 -->
-      <div id="bg-stack">
-        <div class="bg-slide" id="bg-1"></div>
-        <div class="bg-slide" id="bg-2"></div>
-        <div class="bg-slide" id="bg-3"></div>
-        <div class="bg-slide" id="bg-4"></div>
+      <div data-hf-id="hf-jyi3" id="bg-stack">
+        <div data-hf-id="hf-3h4w" class="bg-slide" id="bg-1"></div>
+        <div data-hf-id="hf-ecmj" class="bg-slide" id="bg-2"></div>
+        <div data-hf-id="hf-aeii" class="bg-slide" id="bg-3"></div>
+        <div data-hf-id="hf-rmst" class="bg-slide" id="bg-4"></div>
       </div>
-      <div id="grain"></div>
-      <div id="vignette"></div>
+      <div data-hf-id="hf-f6d6" id="grain"></div>
+      <div data-hf-id="hf-h7i3" id="vignette"></div>
       <!-- 幽灵大字有意出血到画布外（已用快照确认效果） -->
-      <div id="ghost" class="display" data-layout-allow-overflow>06·27</div>
+      <div data-hf-id="hf-0ovi" id="ghost" class="display" data-layout-allow-overflow="">06·27</div>
 
       <!-- 右侧照片区：整段作为一个 clip，内部轮换由时间轴驱动 -->
-      <section id="deck" class="clip" data-start="0" data-duration="10" data-track-index="1">
-        <div class="card-slot">
-          <figure class="photo-card" data-layout-allow-overflow id="card-1">
-            <img data-layout-allow-overflow id="fg-img-1" src="assets/photo-1.jpg" alt="后台一刻" />
-            <figcaption class="frame-chip mono" data-layout-allow-overlap data-layout-allow-overflow>DSC05792</figcaption>
+      <section data-hf-id="hf-jou5" id="deck" class="clip" data-start="0" data-duration="10" data-track-index="1">
+        <div data-hf-id="hf-d2nj" class="card-slot">
+          <figure data-hf-id="hf-ggvh" class="photo-card" data-layout-allow-overflow="" id="card-1">
+            <img data-hf-id="hf-oeqo" data-layout-allow-overflow="" id="fg-img-1" src="assets/photo-1.jpg" alt="后台一刻">
+            <figcaption data-hf-id="hf-ww5w" class="frame-chip mono" data-layout-allow-overlap="" data-layout-allow-overflow="">DSC05792</figcaption>
           </figure>
-          <figure class="photo-card" data-layout-allow-overflow id="card-2">
-            <img data-layout-allow-overflow id="fg-img-2" src="assets/photo-2.jpg" alt="红砖人像" />
-            <figcaption class="frame-chip mono" data-layout-allow-overlap data-layout-allow-overflow>DSC05848</figcaption>
+          <figure data-hf-id="hf-kezi" class="photo-card" data-layout-allow-overflow="" id="card-2">
+            <img data-hf-id="hf-4jra" data-layout-allow-overflow="" id="fg-img-2" src="assets/photo-2.jpg" alt="红砖人像">
+            <figcaption data-hf-id="hf-huza" class="frame-chip mono" data-layout-allow-overlap="" data-layout-allow-overflow="">DSC05848</figcaption>
           </figure>
-          <figure class="photo-card" data-layout-allow-overflow id="card-3">
-            <img data-layout-allow-overflow id="fg-img-3" src="assets/photo-3.jpg" alt="操场同行" />
-            <figcaption class="frame-chip mono" data-layout-allow-overlap data-layout-allow-overflow>DSC05863</figcaption>
+          <figure data-hf-id="hf-od3j" class="photo-card" data-layout-allow-overflow="" id="card-3">
+            <img data-hf-id="hf-d0tg" data-layout-allow-overflow="" id="fg-img-3" src="assets/photo-3.jpg" alt="操场同行">
+            <figcaption data-hf-id="hf-byad" class="frame-chip mono" data-layout-allow-overlap="" data-layout-allow-overflow="">DSC05863</figcaption>
           </figure>
-          <figure class="photo-card" data-layout-allow-overflow id="card-4">
-            <img data-layout-allow-overflow id="fg-img-4" src="assets/photo-4.jpg" alt="街角剪影" />
-            <figcaption class="frame-chip mono" data-layout-allow-overlap data-layout-allow-overflow>DSC05957</figcaption>
+          <figure data-hf-id="hf-sb7k" class="photo-card" data-layout-allow-overflow="" id="card-4">
+            <img data-hf-id="hf-h2q5" data-layout-allow-overflow="" id="fg-img-4" src="assets/photo-4.jpg" alt="街角剪影">
+            <figcaption data-hf-id="hf-7k6l" class="frame-chip mono" data-layout-allow-overlap="" data-layout-allow-overflow="">DSC05957</figcaption>
           </figure>
         </div>
 
-        <div class="bracket" id="bk-tl"></div>
-        <div class="bracket" id="bk-tr"></div>
-        <div class="bracket" id="bk-bl"></div>
-        <div class="bracket" id="bk-br"></div>
+        <div data-hf-id="hf-a2ls" class="bracket" id="bk-tl"></div>
+        <div data-hf-id="hf-eos6" class="bracket" id="bk-tr"></div>
+        <div data-hf-id="hf-hje2" class="bracket" id="bk-bl"></div>
+        <div data-hf-id="hf-eke4" class="bracket" id="bk-br"></div>
 
-        <div id="shoot-meta" class="mono">REEL 01 · 46 FRAMES · 4 SELECTS</div>
+        <div data-hf-id="hf-ffuc" id="shoot-meta" class="mono">REEL 01 · 46 FRAMES · 4 SELECTS</div>
 
-        <div id="counter">
-          <div id="ticks">
-            <span class="tick"><i id="tick-1"></i></span>
-            <span class="tick"><i id="tick-2"></i></span>
-            <span class="tick"><i id="tick-3"></i></span>
-            <span class="tick"><i id="tick-4"></i></span>
+        <div data-hf-id="hf-6nij" id="counter">
+          <div data-hf-id="hf-lrw5" id="ticks">
+            <span data-hf-id="hf-coyi" class="tick"><i data-hf-id="hf-b3to" id="tick-1"></i></span>
+            <span data-hf-id="hf-ptha" class="tick"><i data-hf-id="hf-jrpj" id="tick-2"></i></span>
+            <span data-hf-id="hf-q7sb" class="tick"><i data-hf-id="hf-ftli" id="tick-3"></i></span>
+            <span data-hf-id="hf-qm3c" class="tick"><i data-hf-id="hf-ohhd" id="tick-4"></i></span>
           </div>
-          <div id="count-nums" class="mono">
-            <span class="cnt" id="cnt-1">01 <em>/ 04</em></span>
-            <span class="cnt" id="cnt-2">02 <em>/ 04</em></span>
-            <span class="cnt" id="cnt-3">03 <em>/ 04</em></span>
-            <span class="cnt" id="cnt-4">04 <em>/ 04</em></span>
+          <div data-hf-id="hf-qode" id="count-nums" class="mono">
+            <span data-hf-id="hf-j5qo" class="cnt" id="cnt-1">01 <em data-hf-id="hf-chd0">/ 04</em></span>
+            <span data-hf-id="hf-nf2e" class="cnt" id="cnt-2">02 <em data-hf-id="hf-4zoc">/ 04</em></span>
+            <span data-hf-id="hf-r47s" class="cnt" id="cnt-3">03 <em data-hf-id="hf-3sr9">/ 04</em></span>
+            <span data-hf-id="hf-g3y2" class="cnt" id="cnt-4">04 <em data-hf-id="hf-472a">/ 04</em></span>
           </div>
         </div>
       </section>
 
       <!-- 左侧固定目录栏：常驻层（非 clip），由时间轴驱动入场 -->
-      <aside id="rail">
-        <div id="kicker" class="mono">PHOTO DELIVERY — 2026.06.27</div>
-        <h1 id="album-title" class="display">Summer<br />Archive</h1>
-        <div id="album-sub">夏日拾光 · 精选集</div>
+      <aside data-hf-id="hf-naz4" id="rail">
+        <div data-hf-id="hf-3s9z" id="kicker" class="mono">PHOTO DELIVERY — 2026.06.27</div>
+        <h1 data-hf-id="hf-p5or" id="album-title" class="display">Summer<br data-hf-id="hf-x5px">Archive</h1>
+        <div data-hf-id="hf-47s6" id="album-sub">夏日拾光 · 精选集</div>
 
-        <ol id="toc">
-          <li class="toc-item" id="toc-1">
-            <span class="marker" id="mk-1"></span>
-            <div class="idx mono">01</div>
-            <div class="en display" id="en-1">Backstage</div>
-            <div class="cn" id="cn-1">后台一刻</div>
+        <ol data-hf-id="hf-wcon" id="toc">
+          <li data-hf-id="hf-jtp6" class="toc-item" id="toc-1">
+            <span data-hf-id="hf-1x03" class="marker" id="mk-1"></span>
+            <div data-hf-id="hf-yfg1" class="idx mono">01</div>
+            <div data-hf-id="hf-hgz9" class="en display" id="en-1">Backstage</div>
+            <div data-hf-id="hf-s6rr" class="cn" id="cn-1">后台一刻</div>
           </li>
-          <li class="toc-item" id="toc-2">
-            <span class="marker" id="mk-2"></span>
-            <div class="idx mono">02</div>
-            <div class="en display" id="en-2">Portrait</div>
-            <div class="cn" id="cn-2">红砖人像</div>
+          <li data-hf-id="hf-fvl5" class="toc-item" id="toc-2">
+            <span data-hf-id="hf-t948" class="marker" id="mk-2"></span>
+            <div data-hf-id="hf-zmd4" class="idx mono">02</div>
+            <div data-hf-id="hf-p9cy" class="en display" id="en-2">Portrait</div>
+            <div data-hf-id="hf-ygl0" class="cn" id="cn-2">红砖人像</div>
           </li>
-          <li class="toc-item" id="toc-3">
-            <span class="marker" id="mk-3"></span>
-            <div class="idx mono">03</div>
-            <div class="en display" id="en-3">Field Day</div>
-            <div class="cn" id="cn-3">操场同行</div>
+          <li data-hf-id="hf-f3xc" class="toc-item" id="toc-3">
+            <span data-hf-id="hf-u0s1" class="marker" id="mk-3"></span>
+            <div data-hf-id="hf-z823" class="idx mono">03</div>
+            <div data-hf-id="hf-xexe" class="en display" id="en-3">Field Day</div>
+            <div data-hf-id="hf-7te9" class="cn" id="cn-3">操场同行</div>
           </li>
-          <li class="toc-item" id="toc-4">
-            <span class="marker" id="mk-4"></span>
-            <div class="idx mono">04</div>
-            <div class="en display" id="en-4">Silhouette</div>
-            <div class="cn" id="cn-4">街角剪影</div>
+          <li data-hf-id="hf-b5tb" class="toc-item" id="toc-4">
+            <span data-hf-id="hf-j5ae" class="marker" id="mk-4"></span>
+            <div data-hf-id="hf-x8iy" class="idx mono">04</div>
+            <div data-hf-id="hf-w229" class="en display" id="en-4">Silhouette</div>
+            <div data-hf-id="hf-oxod" class="cn" id="cn-4">街角剪影</div>
           </li>
         </ol>
 
-        <div id="rail-meta" class="mono">
-          SONY ZV-E10 · E 35MM F1.8<br />
+        <div data-hf-id="hf-d6q7" id="rail-meta" class="mono">
+          SONY ZV-E10 · E 35MM F1.8<br data-hf-id="hf-rsrt">
           SHANGHAI · 15:14 — 17:00 CST
         </div>
-        <div id="rail-progress"><i id="progress-fill"></i></div>
+        <div data-hf-id="hf-q4wb" id="rail-progress"><i data-hf-id="hf-zszq" id="progress-fill"></i></div>
       </aside>
     </div>
 

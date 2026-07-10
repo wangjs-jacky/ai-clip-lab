@@ -32,6 +32,10 @@ snapshots/
 demos/06-hyperframes-opening/assets/photo-*.jpg
 demos/06-hyperframes-opening/contact-sheet.jpg
 
+# 白名单：CC-BY 音乐（README 已署名）与内置音效，保证 demo 开箱有声
+!demos/06-hyperframes-opening/assets/bgm-carefree.mp3
+!demos/06-hyperframes-opening/assets/sfx-whoosh.mp3
+
 # 系统与编辑器
 .DS_Store
 .idea/

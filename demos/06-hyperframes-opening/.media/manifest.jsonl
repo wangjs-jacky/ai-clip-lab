@@ -1,0 +1,2 @@
+{"id":"bgm_001","type":"bgm","path":".media/audio/bgm/bgm_001.mp3","source":"ingested","description":"bgm-carefree.mp3","provenance":{"provider":"local","from":"assets/bgm-carefree.mp3"}}
+{"id":"sfx_001","type":"sfx","path":".media/audio/sfx/sfx_001.mp3","source":"ingested","description":"sfx-whoosh.mp3","provenance":{"provider":"local","from":"assets/sfx-whoosh.mp3"}}

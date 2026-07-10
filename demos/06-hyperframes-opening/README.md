@@ -11,6 +11,7 @@
 | 背景层 | 当前照片的模糊放大版（blur 46px + 压暗），比前景**晚 0.45s、用 1.6s** 缓慢显影（"慢半拍"），全程缓慢推近 |
 | 前景细节 | 取景框角标（呼吸动效）、底片编号章（DSC 编号）、REEL 元数据、01/04 计数器 + 刻度 |
 | 节奏 | 每张照片一拍 2.25s，共 4 拍 + 1s 开场，总长 10s @ 30fps |
+| 音频 | BGM 全程铺底（`data-volume 0.85`，10s 裁剪 + 淡入淡出 + loudnorm）；每次换拍前 50ms 一个轻 whoosh（`0.3`），声音领住画面 |
 
 设计概念：「摄影交付册开卷」——左栏是暗房底片索引，右侧成片像从传送带滑出。强调色取自暗房安全灯的琥珀色 `#f5a13d`。
 
@@ -64,7 +65,18 @@ npm run render -- -o renders/opening.mp4
 4. **前景/背景同图复用**：背景用 `background-image` 而非再写一个 `<img>`，避免 `duplicate_media_discovery_risk`。
 5. **有意溢出要标注**：Ken Burns 推近、卡片场外待命、幽灵字出血，先用 `npx hyperframes snapshot --at 1.8,5.0` 逐帧确认，再加 `data-layout-allow-overflow` / `data-layout-allow-overlap`。
 
-## 五、参考
+## 五、声音资源从哪来（本 demo 的实际路径）
+
+- **BGM**：HyperFrames 官方 `media-use` skill 首选 HeyGen 曲库（需 `heygen auth login --oauth`）；无凭证时可本地生成（Lyria 需 `GEMINI_API_KEY` / MusicGen 需 ~2GB torch）。本 demo 走第三条路：**免版权曲库下载 + `resolve --from` 登记**，快且质量稳。
+- **音效**：`media-use` 内置 19 个音效（whoosh / click / riser / chime…），位于 skill 的 `audio/assets/sfx/`，无需网络。
+- 音频接入组合的方式：`<audio>` 作为组合根的**直接子元素**，必须带唯一 `id`（否则渲染静音），用 `data-start/duration/track-index/volume` 控制。
+
+### 音乐署名（CC-BY 4.0）
+
+> "Carefree" — Kevin MacLeod ([incompetech.com](https://incompetech.com))
+> Licensed under [Creative Commons: By Attribution 4.0](https://creativecommons.org/licenses/by/4.0/)
+
+## 六、参考
 
 - [HyperFrames 文档](https://hyperframes.heygen.com/introduction)
 - [HyperFrames vs Remotion](https://hyperframes.heygen.com/guides/hyperframes-vs-remotion)
