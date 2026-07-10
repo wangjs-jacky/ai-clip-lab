@@ -1,0 +1,33 @@
+# 依赖
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.egg-info/
+
+# 构建产物
+dist/
+build/
+out/
+.cache/
+
+# 环境变量与密钥
+.env
+.env.*
+!.env.example
+
+# 大体积媒体产物（demo 输出统一放 output/，不进仓库）
+output/
+*.mp4
+*.mov
+*.mkv
+*.wav
+*.mp3
+*.m4a
+# 小体积示例素材白名单：需要提交时用 git add -f，或放 assets/ 并在此追加 !规则
+
+# 系统与编辑器
+.DS_Store
+.idea/
+.vscode/
+*.log
