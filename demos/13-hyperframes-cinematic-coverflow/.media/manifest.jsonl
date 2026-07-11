@@ -1,0 +1,14 @@
+{"id":"bgm_001","type":"bgm","path":"assets/fixtures/center-tick.wav","source":"existing","description":"center tick","duration":0.1,"provenance":{"provider":"local","adopted":true}}
+{"id":"bgm_002","type":"bgm","path":"assets/fixtures/final-hit.wav","source":"existing","description":"final hit","duration":0.5,"provenance":{"provider":"local","adopted":true}}
+{"id":"icon_001","type":"icon","path":"assets/fixtures/poster-01.svg","source":"existing","description":"poster 01","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_002","type":"icon","path":"assets/fixtures/poster-02.svg","source":"existing","description":"poster 02","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_003","type":"icon","path":"assets/fixtures/poster-03.svg","source":"existing","description":"poster 03","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_004","type":"icon","path":"assets/fixtures/poster-04.svg","source":"existing","description":"poster 04","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_005","type":"icon","path":"assets/fixtures/poster-05.svg","source":"existing","description":"poster 05","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_006","type":"icon","path":"assets/fixtures/poster-06.svg","source":"existing","description":"poster 06","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_007","type":"icon","path":"assets/fixtures/poster-07.svg","source":"existing","description":"poster 07","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_008","type":"icon","path":"assets/fixtures/poster-08.svg","source":"existing","description":"poster 08","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_009","type":"icon","path":"assets/fixtures/poster-09.svg","source":"existing","description":"poster 09","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_010","type":"icon","path":"assets/fixtures/poster-10.svg","source":"existing","description":"poster 10","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_011","type":"icon","path":"assets/fixtures/poster-11.svg","source":"existing","description":"poster 11","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_012","type":"icon","path":"assets/fixtures/poster-12.svg","source":"existing","description":"poster 12","provenance":{"provider":"local","adopted":true}}

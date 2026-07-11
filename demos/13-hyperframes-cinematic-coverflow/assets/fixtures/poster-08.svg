@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900" role="img" aria-labelledby="title desc">
+  <title id="title">After Image</title>
+  <desc id="desc">A spectral afterimage bends around a black eclipse in deep space.</desc>
+  <defs>
+    <linearGradient id="aurora" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#4d62ff"/>
+      <stop offset=".24" stop-color="#1fffc7"/>
+      <stop offset=".52" stop-color="#f5ff69"/>
+      <stop offset=".76" stop-color="#ff567d"/>
+      <stop offset="1" stop-color="#8a4dff"/>
+    </linearGradient>
+    <filter id="soft" x="-30%" y="-40%" width="160%" height="180%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="600" height="900" fill="#050614"/>
+  <g fill="#dfe6ff" opacity=".55">
+    <circle cx="72" cy="147" r="2"/><circle cx="129" cy="212" r="1.5"/><circle cx="518" cy="164" r="2"/>
+    <circle cx="470" cy="293" r="1.5"/><circle cx="91" cy="478" r="2"/><circle cx="538" cy="531" r="1.5"/>
+    <circle cx="222" cy="91" r="1.5"/><circle cx="383" cy="129" r="2"/><circle cx="151" cy="596" r="1.5"/>
+  </g>
+  <path d="M-74 489C68 224 244 194 381 282S565 453 686 194" fill="none" stroke="url(#aurora)" stroke-width="74" stroke-linecap="round" opacity=".3" filter="url(#soft)"/>
+  <path d="M-74 489C68 224 244 194 381 282S565 453 686 194" fill="none" stroke="url(#aurora)" stroke-width="38" stroke-linecap="round"/>
+  <path d="M-76 515C71 255 246 229 375 310S555 470 681 225" fill="none" stroke="#f8faff" stroke-opacity=".55" stroke-width="2"/>
+  <circle cx="327" cy="326" r="118" fill="#050614"/>
+  <circle cx="327" cy="326" r="118" fill="none" stroke="#f8faff" stroke-opacity=".22" stroke-width="2"/>
+  <circle cx="327" cy="326" r="10" fill="#f5ff69"/>
+  <text x="48" y="62" fill="#1fffc7" font-family="'IBM Plex Mono', monospace" font-size="12" letter-spacing="3">PARALLAX / 08</text>
+  <text x="552" y="62" text-anchor="end" fill="#777b9e" font-family="'IBM Plex Mono', monospace" font-size="10" letter-spacing="2">MOTION STUDIES 24</text>
+  <text x="48" y="730" fill="#f8faff" font-family="'Cabinet Grotesk', sans-serif" font-size="74" font-weight="700" letter-spacing="-4">AFTER</text>
+  <text x="48" y="800" fill="#1fffc7" font-family="'Cabinet Grotesk', sans-serif" font-size="74" font-weight="700" letter-spacing="-4">IMAGE</text>
+  <path d="M48 826H552" stroke="url(#aurora)" stroke-width="3"/>
+  <text x="48" y="854" fill="#777b9e" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">LIGHT REMAINS AFTER LOOKING</text>
+  <text x="552" y="854" text-anchor="end" fill="#1fffc7" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">OFFICIAL FRAME</text>
+</svg>

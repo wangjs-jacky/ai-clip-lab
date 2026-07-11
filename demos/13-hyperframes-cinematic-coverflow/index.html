@@ -1,0 +1,781 @@
+<!doctype html>
+<html
+  lang="zh-CN"
+  data-composition-variables='[
+    {"id":"poster01","type":"string","label":"Poster 01","default":"assets/fixtures/poster-01.svg"},
+    {"id":"poster02","type":"string","label":"Poster 02","default":"assets/fixtures/poster-02.svg"},
+    {"id":"poster03","type":"string","label":"Poster 03","default":"assets/fixtures/poster-03.svg"},
+    {"id":"poster04","type":"string","label":"Poster 04","default":"assets/fixtures/poster-04.svg"},
+    {"id":"poster05","type":"string","label":"Poster 05","default":"assets/fixtures/poster-05.svg"},
+    {"id":"poster06","type":"string","label":"Poster 06","default":"assets/fixtures/poster-06.svg"},
+    {"id":"poster07","type":"string","label":"Poster 07","default":"assets/fixtures/poster-07.svg"},
+    {"id":"poster08","type":"string","label":"Poster 08","default":"assets/fixtures/poster-08.svg"},
+    {"id":"poster09","type":"string","label":"Poster 09","default":"assets/fixtures/poster-09.svg"},
+    {"id":"poster10","type":"string","label":"Poster 10","default":"assets/fixtures/poster-10.svg"},
+    {"id":"poster11","type":"string","label":"Poster 11","default":"assets/fixtures/poster-11.svg"},
+    {"id":"poster12","type":"string","label":"Poster 12","default":"assets/fixtures/poster-12.svg"},
+    {"id":"accent","type":"color","label":"Lock accent","default":"#e6b860"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>Parallax Nocturne — Cinematic Coverflow</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Avenir Next Condensed";
+        src: local("AvenirNextCondensed-DemiBold"), local("Avenir Next Condensed");
+        font-weight: 600;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #05070a;
+      }
+
+      body {
+        color: #f1ead9;
+        font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+      }
+
+      .display {
+        font-family: "Avenir Next Condensed", "Avenir Next", sans-serif;
+        font-stretch: condensed;
+        text-transform: uppercase;
+      }
+
+      .mono {
+        font-family: "IBM Plex Mono", "JetBrains Mono", Menlo, monospace;
+        font-variant-numeric: tabular-nums;
+        text-transform: uppercase;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      #coverflow-stage {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      #frame-fill {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 50% 47%, rgba(54, 56, 74, 0.24), transparent 29%),
+          radial-gradient(circle at 18% 24%, rgba(72, 51, 45, 0.17), transparent 24%),
+          radial-gradient(circle at 82% 70%, rgba(41, 58, 62, 0.14), transparent 27%),
+          #080a0e;
+      }
+
+      #frame-fill::before {
+        content: "";
+        position: absolute;
+        inset: 34px;
+        z-index: 30;
+        border: 1px solid rgba(230, 184, 96, 0.23);
+        pointer-events: none;
+      }
+
+      #frame-fill::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 28;
+        background: radial-gradient(ellipse 78% 69% at 50% 48%, transparent 46%, rgba(3, 4, 7, 0.78) 100%);
+        pointer-events: none;
+      }
+
+      .stars {
+        position: absolute;
+        inset: -80px;
+        z-index: 1;
+        pointer-events: none;
+        will-change: transform;
+      }
+
+      .star {
+        position: absolute;
+        display: block;
+        border-radius: 50%;
+        background: #ece5d2;
+        box-shadow: 0 0 8px rgba(230, 184, 96, 0.42);
+      }
+
+      #nebula {
+        position: absolute;
+        inset: 80px 220px;
+        z-index: 2;
+        opacity: 0.62;
+        background:
+          radial-gradient(ellipse 38% 28% at 38% 46%, rgba(115, 66, 64, 0.18), transparent 70%),
+          radial-gradient(ellipse 34% 32% at 67% 45%, rgba(63, 76, 95, 0.18), transparent 72%);
+        filter: blur(20px);
+        pointer-events: none;
+        will-change: transform;
+      }
+
+      #horizon-glow {
+        position: absolute;
+        top: 51%;
+        left: 50%;
+        z-index: 3;
+        width: 1440px;
+        height: 260px;
+        transform: translate(-50%, -50%);
+        opacity: 0.26;
+        background: radial-gradient(ellipse, rgba(230, 184, 96, 0.28), transparent 68%);
+        filter: blur(30px);
+        pointer-events: none;
+      }
+
+      #masthead {
+        position: absolute;
+        top: 54px;
+        right: 72px;
+        left: 72px;
+        z-index: 40;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: start;
+        gap: 40px;
+      }
+
+      #archive-mark,
+      #rotation-meta {
+        color: #a9a291;
+        font-size: 18px;
+        line-height: 1.45;
+        letter-spacing: 0.08em;
+      }
+
+      #archive-mark strong,
+      #rotation-meta strong {
+        display: block;
+        color: var(--accent, #e6b860);
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+      }
+
+      #rotation-meta {
+        text-align: right;
+      }
+
+      #rotation-meta span {
+        display: block;
+      }
+
+      #main-title {
+        color: #f3ead8;
+        font-size: 58px;
+        font-weight: 600;
+        letter-spacing: 0.09em;
+        line-height: 0.9;
+        text-align: center;
+      }
+
+      #deck-viewport {
+        position: absolute;
+        top: 156px;
+        right: 0;
+        bottom: 174px;
+        left: 0;
+        z-index: 8;
+        overflow: visible;
+        perspective: 1650px;
+        perspective-origin: 50% 49%;
+        transform-style: preserve-3d;
+      }
+
+      #deck {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+      }
+
+      .poster-slot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 306px;
+        height: 459px;
+        margin-top: -229.5px;
+        margin-left: -153px;
+        transform-style: preserve-3d;
+        transform-origin: center center;
+        will-change: transform, opacity;
+      }
+
+      .poster-card {
+        --brightness: 1;
+        --dof: 0px;
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        border: 2px solid rgba(242, 224, 191, 0.58);
+        background: #101519;
+        box-shadow:
+          0 42px 80px rgba(0, 0, 0, 0.58),
+          0 11px 24px rgba(0, 0, 0, 0.38);
+        filter: blur(var(--dof)) brightness(var(--brightness));
+        transform-origin: center center;
+        will-change: transform, opacity, filter;
+      }
+
+      .poster-card::before {
+        content: "";
+        position: absolute;
+        inset: 10px;
+        z-index: 4;
+        border: 1px solid rgba(248, 231, 199, 0.24);
+        pointer-events: none;
+      }
+
+      .poster-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        background: linear-gradient(180deg, transparent 48%, rgba(4, 6, 8, 0.36) 100%);
+      }
+
+      .poster-card img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      #lock-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 1;
+        width: 960px;
+        height: 880px;
+        transform: translate(-50%, -50%) scale(0.72);
+        transform-origin: center center;
+        opacity: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          ellipse,
+          rgba(255, 222, 139, 0.96) 0%,
+          rgba(235, 166, 62, 0.8) 19%,
+          rgba(185, 94, 24, 0.5) 40%,
+          rgba(105, 48, 17, 0.2) 58%,
+          transparent 75%
+        );
+        box-shadow: 0 0 170px 24px rgba(226, 145, 44, 0.32);
+        filter: blur(40px);
+        mix-blend-mode: screen;
+        will-change: transform, opacity;
+      }
+
+      #lock-reticle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 14;
+        width: 366px;
+        height: 519px;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #lock-reticle::before,
+      #lock-reticle::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border: 1px solid rgba(230, 184, 96, 0.58);
+      }
+
+      #lock-reticle::after {
+        inset: -14px;
+        border-color: rgba(230, 184, 96, 0.2);
+      }
+
+      #center-axis {
+        position: absolute;
+        top: 162px;
+        bottom: 140px;
+        left: 50%;
+        z-index: 6;
+        width: 1px;
+        transform: translateX(-50%);
+        opacity: 0.44;
+        background: linear-gradient(to bottom, transparent, rgba(230, 184, 96, 0.7) 28%, rgba(230, 184, 96, 0.7) 72%, transparent);
+      }
+
+      #selection-lock {
+        position: absolute;
+        right: 72px;
+        bottom: 148px;
+        z-index: 42;
+        width: 390px;
+        padding: 22px 26px 20px;
+        opacity: 0;
+        border-top: 2px solid var(--accent, #e6b860);
+        border-bottom: 1px solid rgba(230, 184, 96, 0.3);
+        background: rgba(7, 10, 12, 0.72);
+      }
+
+      #selection-lock .kicker {
+        color: var(--accent, #e6b860);
+        font-size: 17px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+
+      #selection-lock strong {
+        display: block;
+        margin-top: 8px;
+        color: #f4eddf;
+        font-size: 38px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      #selection-lock .detail {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        color: #a8a092;
+        font-size: 17px;
+        letter-spacing: 0.08em;
+      }
+
+      #transport {
+        position: absolute;
+        right: 72px;
+        bottom: 52px;
+        left: 72px;
+        z-index: 40;
+        display: grid;
+        grid-template-columns: 258px 1fr 258px;
+        align-items: end;
+        gap: 32px;
+      }
+
+      #position-readout,
+      #time-readout {
+        color: #a8a092;
+        font-size: 18px;
+        line-height: 1.45;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      #time-readout {
+        text-align: right;
+      }
+
+      #position-readout b,
+      #time-readout b {
+        color: #efe5d2;
+        font-size: 22px;
+        font-weight: 500;
+      }
+
+      #transport-rail {
+        position: relative;
+        height: 32px;
+      }
+
+      #rail-base,
+      #progress-fill {
+        position: absolute;
+        top: 14px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        transform-origin: left center;
+      }
+
+      #rail-base {
+        background: rgba(232, 220, 198, 0.18);
+      }
+
+      #progress-fill {
+        transform: scaleX(0);
+        background: var(--accent, #e6b860);
+        box-shadow: 0 0 18px rgba(230, 184, 96, 0.5);
+      }
+
+      #progress-fill::after {
+        content: "";
+        position: absolute;
+        top: -4px;
+        right: -5px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #f2d493;
+        box-shadow: 0 0 20px rgba(230, 184, 96, 0.9);
+      }
+
+      #beat-rail {
+        position: absolute;
+        inset: 0;
+      }
+
+      #beat-rail i {
+        position: absolute;
+        top: 9px;
+        width: 1px;
+        height: 12px;
+        background: rgba(237, 220, 188, 0.5);
+      }
+
+      #focus-vignette,
+      #edge-vignette,
+      #grain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      #focus-vignette {
+        z-index: 21;
+        opacity: 0;
+        background: radial-gradient(ellipse 27% 58% at 50% 49%, transparent 24%, rgba(2, 3, 4, 0.86) 100%);
+      }
+
+      #edge-vignette {
+        z-index: 29;
+        background: radial-gradient(ellipse 86% 82% at 50% 48%, transparent 54%, rgba(2, 3, 5, 0.62) 100%);
+      }
+
+      #grain {
+        z-index: 31;
+        opacity: 0.045;
+        mix-blend-mode: screen;
+        background-image:
+          radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.7) 0 0.6px, transparent 0.8px),
+          radial-gradient(circle at 78% 65%, rgba(255, 255, 255, 0.5) 0 0.5px, transparent 0.75px);
+        background-size: 7px 9px, 11px 13px;
+      }
+
+      .frame-corner {
+        position: absolute;
+        z-index: 45;
+        width: 48px;
+        height: 48px;
+        border-color: rgba(230, 184, 96, 0.66);
+        border-style: solid;
+        pointer-events: none;
+      }
+
+      #corner-tl { top: 28px; left: 28px; border-width: 2px 0 0 2px; }
+      #corner-tr { top: 28px; right: 28px; border-width: 2px 2px 0 0; }
+      #corner-bl { bottom: 28px; left: 28px; border-width: 0 0 2px 2px; }
+      #corner-br { right: 28px; bottom: 28px; border-width: 0 2px 2px 0; }
+    </style>
+  </head>
+  <body>
+    <main
+      id="root"
+      data-hf-id="hf-cinematic-coverflow-root"
+      data-composition-id="main"
+      data-start="0"
+      data-width="1920"
+      data-height="1080"
+      data-duration="10"
+      data-fps="30"
+    >
+      <section
+        id="coverflow-stage"
+        class="clip"
+        data-start="0"
+        data-duration="10"
+        data-track-index="1"
+      >
+        <div id="frame-fill">
+          <div id="nebula" data-layout-ignore></div>
+          <div id="stars-back" class="stars" data-layout-ignore></div>
+          <div id="stars-near" class="stars" data-layout-ignore></div>
+          <div id="horizon-glow" data-layout-ignore></div>
+
+          <header id="masthead">
+            <div id="archive-mark" class="mono">
+              <strong>Parallax Archive</strong>
+              Reel 013 · Coverflow Study
+            </div>
+            <h1 id="main-title" class="display">Midnight Rotation</h1>
+            <div id="rotation-meta" class="mono">
+              <strong id="center-readout">Center 00 / 12</strong>
+              <span id="velocity-readout">Decel · 100%</span>
+            </div>
+          </header>
+
+          <div id="center-axis" data-layout-ignore></div>
+          <div id="deck-viewport" data-layout-allow-overflow data-layout-allow-overlap>
+            <div id="lock-glow" data-layout-ignore></div>
+            <div id="deck" data-layout-allow-overflow data-layout-allow-overlap>
+              <article id="poster-slot-01" class="poster-slot" data-index="0" data-layout-allow-overflow>
+                <figure id="poster-card-01" class="poster-card"><img data-var-src="poster01" src="assets/fixtures/poster-01.svg" alt="原创电影海报 Echo North"></figure>
+              </article>
+              <article id="poster-slot-02" class="poster-slot" data-index="1" data-layout-allow-overflow>
+                <figure id="poster-card-02" class="poster-card"><img data-var-src="poster02" src="assets/fixtures/poster-02.svg" alt="原创电影海报 Static Bloom"></figure>
+              </article>
+              <article id="poster-slot-03" class="poster-slot" data-index="2" data-layout-allow-overflow>
+                <figure id="poster-card-03" class="poster-card"><img data-var-src="poster03" src="assets/fixtures/poster-03.svg" alt="原创电影海报 Glass Horizon"></figure>
+              </article>
+              <article id="poster-slot-04" class="poster-slot" data-index="3" data-layout-allow-overflow>
+                <figure id="poster-card-04" class="poster-card"><img data-var-src="poster04" src="assets/fixtures/poster-04.svg" alt="原创电影海报 Night Orbit"></figure>
+              </article>
+              <article id="poster-slot-05" class="poster-slot" data-index="4" data-layout-allow-overflow>
+                <figure id="poster-card-05" class="poster-card"><img data-var-src="poster05" src="assets/fixtures/poster-05.svg" alt="原创电影海报 Red Current"></figure>
+              </article>
+              <article id="poster-slot-06" class="poster-slot" data-index="5" data-layout-allow-overflow>
+                <figure id="poster-card-06" class="poster-card"><img data-var-src="poster06" src="assets/fixtures/poster-06.svg" alt="原创电影海报 Velvet Signal"></figure>
+              </article>
+              <article id="poster-slot-07" class="poster-slot" data-index="6" data-layout-allow-overflow>
+                <figure id="poster-card-07" class="poster-card"><img data-var-src="poster07" src="assets/fixtures/poster-07.svg" alt="原创电影海报 Silent Tide"></figure>
+              </article>
+              <article id="poster-slot-08" class="poster-slot" data-index="7" data-layout-allow-overflow>
+                <figure id="poster-card-08" class="poster-card"><img data-var-src="poster08" src="assets/fixtures/poster-08.svg" alt="原创电影海报 After Image"></figure>
+              </article>
+              <article id="poster-slot-09" class="poster-slot" data-index="8" data-layout-allow-overflow>
+                <figure id="poster-card-09" class="poster-card"><img data-var-src="poster09" src="assets/fixtures/poster-09.svg" alt="原创电影海报 Deep Field"></figure>
+              </article>
+              <article id="poster-slot-10" class="poster-slot" data-index="9" data-layout-allow-overflow>
+                <figure id="poster-card-10" class="poster-card"><img data-var-src="poster10" src="assets/fixtures/poster-10.svg" alt="原创电影海报 Paper Moon"></figure>
+              </article>
+              <article id="poster-slot-11" class="poster-slot" data-index="10" data-layout-allow-overflow>
+                <figure id="poster-card-11" class="poster-card"><img data-var-src="poster11" src="assets/fixtures/poster-11.svg" alt="原创电影海报 Last Transmission"></figure>
+              </article>
+              <article id="poster-slot-12" class="poster-slot" data-index="11" data-layout-allow-overflow>
+                <figure id="poster-card-12" class="poster-card"><img data-var-src="poster12" src="assets/fixtures/poster-12.svg" alt="原创电影海报 Slow Burn"></figure>
+              </article>
+            </div>
+            <div id="lock-reticle" data-layout-ignore></div>
+          </div>
+
+          <aside id="selection-lock">
+            <span class="kicker mono">Locked frame · 06 / 12</span>
+            <strong class="display">Velvet Signal</strong>
+            <span class="detail mono"><span>Depth 000</span><span>Focus 1.00</span><span>Hold 02.30s</span></span>
+          </aside>
+
+          <footer id="transport">
+            <div id="position-readout" class="mono">
+              Position <b id="position-value">00.00</b>
+              <span>Distance-driven transforms</span>
+            </div>
+            <div id="transport-rail">
+              <div id="rail-base"></div>
+              <div id="progress-fill"></div>
+              <div id="beat-rail" data-layout-ignore></div>
+            </div>
+            <div id="time-readout" class="mono">
+              T+ <b id="time-value">00.00</b> / 10.00s
+              <span>30 fps · deterministic seek</span>
+            </div>
+          </footer>
+
+          <div id="focus-vignette" data-layout-ignore></div>
+          <div id="edge-vignette" data-layout-ignore></div>
+          <div id="grain" data-layout-ignore></div>
+          <i id="corner-tl" class="frame-corner" data-layout-ignore></i>
+          <i id="corner-tr" class="frame-corner" data-layout-ignore></i>
+          <i id="corner-bl" class="frame-corner" data-layout-ignore></i>
+          <i id="corner-br" class="frame-corner" data-layout-ignore></i>
+        </div>
+      </section>
+
+      <audio id="tick-01" src="assets/fixtures/center-tick.wav" data-start="0.967764" data-duration="0.11" data-track-index="10" data-volume="0.38"></audio>
+      <audio id="tick-02" src="assets/fixtures/center-tick.wav" data-start="1.141201" data-duration="0.11" data-track-index="11" data-volume="0.38"></audio>
+      <audio id="tick-03" src="assets/fixtures/center-tick.wav" data-start="1.320928" data-duration="0.11" data-track-index="12" data-volume="0.38"></audio>
+      <audio id="tick-04" src="assets/fixtures/center-tick.wav" data-start="1.507683" data-duration="0.11" data-track-index="13" data-volume="0.38"></audio>
+      <audio id="tick-05" src="assets/fixtures/center-tick.wav" data-start="1.702362" data-duration="0.11" data-track-index="14" data-volume="0.38"></audio>
+      <audio id="tick-06" src="assets/fixtures/center-tick.wav" data-start="1.906068" data-duration="0.11" data-track-index="15" data-volume="0.38"></audio>
+      <audio id="tick-07" src="assets/fixtures/center-tick.wav" data-start="2.120187" data-duration="0.11" data-track-index="16" data-volume="0.38"></audio>
+      <audio id="tick-08" src="assets/fixtures/center-tick.wav" data-start="2.346501" data-duration="0.11" data-track-index="17" data-volume="0.38"></audio>
+      <audio id="tick-09" src="assets/fixtures/center-tick.wav" data-start="2.587366" data-duration="0.11" data-track-index="18" data-volume="0.38"></audio>
+      <audio id="tick-10" src="assets/fixtures/center-tick.wav" data-start="2.846011" data-duration="0.11" data-track-index="19" data-volume="0.38"></audio>
+      <audio id="tick-11" src="assets/fixtures/center-tick.wav" data-start="3.127074" data-duration="0.11" data-track-index="20" data-volume="0.38"></audio>
+      <audio id="tick-12" src="assets/fixtures/center-tick.wav" data-start="3.437646" data-duration="0.11" data-track-index="21" data-volume="0.38"></audio>
+      <audio id="tick-13" src="assets/fixtures/center-tick.wav" data-start="3.789594" data-duration="0.11" data-track-index="22" data-volume="0.38"></audio>
+      <audio id="tick-14" src="assets/fixtures/center-tick.wav" data-start="4.205846" data-duration="0.11" data-track-index="23" data-volume="0.38"></audio>
+      <audio id="tick-15" src="assets/fixtures/center-tick.wav" data-start="4.744396" data-duration="0.11" data-track-index="24" data-volume="0.38"></audio>
+      <audio id="tick-16" src="assets/fixtures/center-tick.wav" data-start="5.804183" data-duration="0.11" data-track-index="25" data-volume="0.38"></audio>
+      <audio id="final-hit" src="assets/fixtures/final-hit.wav" data-start="7" data-duration="0.5" data-track-index="26" data-volume="0.72"></audio>
+    </main>
+
+    <script type="module">
+      import {
+        FINAL_CENTER,
+        PRE_SETTLE_CENTER,
+        POSTER_COUNT,
+        START_CENTER,
+        TARGET_INDEX,
+        TIMING,
+        buildCrossingTimes,
+        centerAtTime,
+        coverflowLayout,
+        lockAtTime,
+        positiveMod,
+        spreadAtTime,
+        visualOpacityAt,
+      } from "./coverflow.js";
+
+      const clock = { time: 0 };
+
+      const slots = [...document.querySelectorAll(".poster-slot")];
+      const centerReadout = document.querySelector("#center-readout");
+      const velocityReadout = document.querySelector("#velocity-readout");
+      const positionValue = document.querySelector("#position-value");
+      const timeValue = document.querySelector("#time-value");
+      const stage = document.querySelector("#coverflow-stage");
+      const progressFill = document.querySelector("#progress-fill");
+      const lockGlow = document.querySelector("#lock-glow");
+      const lockReticle = document.querySelector("#lock-reticle");
+      const selectionLock = document.querySelector("#selection-lock");
+      const focusVignette = document.querySelector("#focus-vignette");
+
+      function seededRandom(seed) {
+        let value = seed >>> 0;
+        return () => {
+          value += 0x6d2b79f5;
+          let result = value;
+          result = Math.imul(result ^ (result >>> 15), result | 1);
+          result ^= result + Math.imul(result ^ (result >>> 7), result | 61);
+          return ((result ^ (result >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function populateStars(layer, count, seed, sizeScale) {
+        const random = seededRandom(seed);
+        for (let index = 0; index < count; index += 1) {
+          const star = document.createElement("i");
+          star.className = "star";
+          const size = (0.8 + random() * 2.1) * sizeScale;
+          star.style.left = `${random() * 100}%`;
+          star.style.top = `${random() * 100}%`;
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.opacity = String(0.28 + random() * 0.62);
+          layer.append(star);
+        }
+      }
+
+      function remainingVelocity(time, center) {
+        if (time < TIMING.spinStart) return 100;
+        if (time < TIMING.settleStart) {
+          const remaining = Math.max(
+            0,
+            (PRE_SETTLE_CENTER - center) / (PRE_SETTLE_CENTER - START_CENTER),
+          );
+          return Math.sqrt(remaining) * 100;
+        }
+        if (time < TIMING.lockStart) {
+          const remaining = Math.max(
+            0,
+            (FINAL_CENTER - center) / (FINAL_CENTER - PRE_SETTLE_CENTER),
+          );
+          return remaining * 12;
+        }
+        return 0;
+      }
+
+      function renderFrame() {
+        const time = clock.time;
+        const center = centerAtTime(time);
+        const spread = spreadAtTime(time);
+        const lock = lockAtTime(time);
+
+        slots.forEach((slot) => {
+          const index = Number(slot.dataset.index);
+          const layout = coverflowLayout(index, center, spread);
+          const card = slot.firstElementChild;
+          const isTarget = index === TARGET_INDEX;
+
+          slot.style.transform = `translate3d(${layout.x.toFixed(3)}px, ${layout.y.toFixed(3)}px, ${layout.z.toFixed(3)}px) rotateY(${layout.rotationY.toFixed(3)}deg) scale(${layout.scale.toFixed(4)})`;
+          slot.style.opacity = layout.opacity.toFixed(4);
+          card.style.setProperty("--brightness", layout.brightness.toFixed(3));
+          card.style.setProperty(
+            "--dof",
+            `${(layout.blur + (isTarget ? 0 : lock * 3)).toFixed(3)}px`,
+          );
+          card.style.opacity = (isTarget ? 1 : 1 - lock * 0.72).toFixed(4);
+          card.style.transform = `scale(${(isTarget ? 1 + lock * 0.08 : 1).toFixed(4)})`;
+        });
+
+        const roundedCenter = Math.round(center);
+        const posterIndex = positiveMod(roundedCenter, POSTER_COUNT);
+        const remainingSpeed = remainingVelocity(time, center);
+        centerReadout.textContent = `Center ${String(posterIndex + 1).padStart(2, "0")} / 12`;
+        velocityReadout.textContent = `Decel · ${remainingSpeed.toFixed(0).padStart(3, "0")}%`;
+        positionValue.textContent = center.toFixed(2).padStart(5, "0");
+        timeValue.textContent = time.toFixed(2).padStart(5, "0");
+        progressFill.style.transform = `scaleX(${(time / TIMING.duration).toFixed(5)})`;
+        stage.style.opacity = visualOpacityAt(time).toFixed(4);
+        lockGlow.style.opacity = (lock * 0.78).toFixed(4);
+        lockGlow.style.transform = `translate(-50%, -50%) scale(${(0.72 + lock * 0.38).toFixed(4)})`;
+        lockReticle.style.opacity = lock.toFixed(4);
+        lockReticle.style.transform = `translate(-50%, -50%) scale(${(0.96 + lock * 0.04).toFixed(4)})`;
+        selectionLock.style.opacity = lock.toFixed(4);
+        selectionLock.style.transform = `translateY(${((1 - lock) * 22).toFixed(3)}px)`;
+        focusVignette.style.opacity = lock.toFixed(4);
+      }
+
+      populateStars(document.querySelector("#stars-back"), 76, 13013, 0.8);
+      populateStars(document.querySelector("#stars-near"), 38, 26026, 1.25);
+
+      for (const crossing of buildCrossingTimes()) {
+        const marker = document.createElement("i");
+        marker.style.left = `${(crossing.time / TIMING.duration) * 100}%`;
+        marker.style.height = crossing.final ? "20px" : "12px";
+        marker.style.top = crossing.final ? "5px" : "9px";
+        marker.style.background = crossing.final ? "var(--accent, #e6b860)" : "rgba(237, 220, 188, 0.5)";
+        document.querySelector("#beat-rail").append(marker);
+      }
+
+      renderFrame();
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+
+      tl.addLabel("assemble", TIMING.assembleStart);
+      tl.addLabel("spin", TIMING.spinStart);
+      tl.addLabel("settle", TIMING.settleStart);
+      tl.addLabel("lock", TIMING.lockStart);
+      tl.addLabel("exit", TIMING.exitStart);
+
+      tl.fromTo("#masthead", { y: -28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.58, ease: "power3.out" }, 0.16);
+      tl.fromTo("#transport", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.62, ease: "power2.out" }, 0.22);
+      tl.fromTo(".frame-corner", { opacity: 0 }, { opacity: 1, duration: 0.72, ease: "sine.out" }, 0.12);
+      tl.fromTo("#center-axis", { scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 0.44, duration: 0.74, ease: "power4.out", transformOrigin: "center center" }, 0.2);
+
+      tl.to(clock, { time: TIMING.duration, duration: TIMING.duration, ease: "none", onUpdate: renderFrame }, 0);
+
+      tl.fromTo("#stars-back", { x: -14, y: -6 }, { x: 18, y: 8, duration: 9.12, ease: "sine.inOut" }, "assemble");
+      tl.fromTo("#stars-near", { x: 16, y: 7 }, { x: -22, y: -9, duration: 9.12, ease: "power1.inOut" }, "assemble");
+      tl.fromTo("#nebula", { x: -12, scale: 1 }, { x: 20, scale: 1.05, duration: 9.12, ease: "sine.inOut" }, "assemble");
+
+      window.__timelines.main = tl;
+    </script>
+  </body>
+</html>

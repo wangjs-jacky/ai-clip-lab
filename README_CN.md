@@ -25,6 +25,9 @@ ai-clip-lab/
 | # | Demo | 状态 |
 |---|------|------|
 | 06 | [HyperFrames 相册开场动画](./demos/06-hyperframes-opening/) —— 左侧固定目录栏、照片先快后慢滑入、模糊背景慢半拍轮换 | ✅ 可运行 |
+| 11 | [HyperFrames 3D 海报墙](./demos/11-hyperframes-3d-poster-wall/) —— 海报按边缘方向组装、CSS 透视倾斜、分层镜头巡航 | ✅ 可运行 |
+| 12 | [HyperFrames 三角函数投影舱](./demos/12-hyperframes-trig-projection-room/) —— 一个相位同时驱动单位圆、后墙正弦波与地面余弦波 | ✅ 可运行 |
+| 13 | [HyperFrames 电影海报轮转](./demos/13-hyperframes-cinematic-coverflow/) —— 一个连续中心位置驱动 12 张原创海报的空间层级、先快后慢定格与中心敲击 | ✅ 可运行 |
 | — | 完整候选清单见 [docs/roadmap.md](./docs/roadmap.md) | 🚧 规划中 |
 
 demo 落地后会逐个补进这张表。状态图例：🚧 规划中 · 🧪 开发中 · ✅ 可运行。

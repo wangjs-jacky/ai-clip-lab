@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Slow Burn</title>
+  <desc id="desc">Translucent teal planes refract around a slow coral burn.</desc>
+  <defs>
+    <linearGradient id="glass-a" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#73ffe2" stop-opacity=".84"/>
+      <stop offset="1" stop-color="#087d87" stop-opacity=".2"/>
+    </linearGradient>
+    <linearGradient id="glass-b" x1="1" y1="0" x2="0" y2="1">
+      <stop stop-color="#006d79" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#d4fff4" stop-opacity=".28"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="900" fill="#d8f2eb"/>
+  <rect x="42" y="94" width="516" height="566" fill="#063f49"/>
+  <g stroke="#d8f2eb" stroke-opacity=".38" stroke-width="2">
+    <path d="M42 188H558M42 282H558M42 376H558M42 470H558M42 564H558"/>
+    <path d="M128 94V660M214 94V660M300 94V660M386 94V660M472 94V660"/>
+  </g>
+  <g style="mix-blend-mode:screen">
+    <path d="M74 532L217 126 342 579Z" fill="url(#glass-a)"/>
+    <path d="M184 608L311 152 523 489Z" fill="url(#glass-b)"/>
+    <path d="M113 248L462 118 394 628Z" fill="#36d9c1" fill-opacity=".34"/>
+    <path d="M84 596L476 216 531 623Z" fill="#98fff0" fill-opacity=".24"/>
+  </g>
+  <line x1="328" y1="94" x2="328" y2="660" stroke="#ff6958" stroke-width="7"/>
+  <circle cx="328" cy="376" r="36" fill="#ff6958"/>
+  <circle cx="328" cy="376" r="16" fill="#063f49"/>
+  <g fill="#ff6958">
+    <circle cx="328" cy="126" r="5"/><circle cx="328" cy="626" r="5"/>
+  </g>
+  <text x="48" y="62" fill="#063f49" font-family="'IBM Plex Mono', monospace" font-size="12" letter-spacing="3">PARALLAX / 12</text>
+  <text x="552" y="62" text-anchor="end" fill="#557a78" font-family="'IBM Plex Mono', monospace" font-size="10" letter-spacing="2">MOTION STUDIES 24</text>
+  <text x="48" y="741" fill="#063f49" font-family="'Cabinet Grotesk', sans-serif" font-size="67" font-weight="700" letter-spacing="-3">SLOW</text>
+  <text x="48" y="806" fill="#ff6958" font-family="'Cabinet Grotesk', sans-serif" font-size="67" font-weight="700" letter-spacing="-3">BURN</text>
+  <path d="M48 830H552" stroke="#063f49" stroke-width="2"/>
+  <text x="48" y="857" fill="#557a78" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">HEAT MOVES THROUGH GLASS</text>
+  <text x="552" y="857" text-anchor="end" fill="#ff6958" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">OFFICIAL FRAME</text>
+</svg>

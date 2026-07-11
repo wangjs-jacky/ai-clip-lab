@@ -1,0 +1,10 @@
+{
+  "duration": 10,
+  "maxStaticSec": 1.8,
+  "assertions": [
+    {"kind": "appearsBy", "selector": "#poster-card-01", "bySec": 0.8},
+    {"kind": "appearsBy", "selector": "#selection-lock", "bySec": 8},
+    {"kind": "before", "a": "#poster-card-01", "b": "#selection-lock"},
+    {"kind": "staysInFrame", "selector": "#masthead"}
+  ]
+}

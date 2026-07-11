@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Silent Tide</title>
+  <desc id="desc">Black geometric waves cut through a field of hot tidal orange.</desc>
+  <rect width="600" height="900" fill="#f05224"/>
+  <g fill="#11100f">
+    <path d="M0 112L296 42 206 424 0 502Z"/>
+    <path d="M600 78L392 204 600 448Z"/>
+    <path d="M150 498L384 290 474 655 247 700Z"/>
+  </g>
+  <g fill="none" stroke="#ffbd55" stroke-width="2">
+    <path d="M26 134L286 73 211 391 26 460Z"/>
+    <path d="M573 122L421 214 573 393Z"/>
+    <path d="M181 506L364 343 433 625 260 659Z"/>
+  </g>
+  <text x="300" y="577" text-anchor="middle" fill="#f05224" font-family="'Cabinet Grotesk', sans-serif" font-size="420" font-weight="700" letter-spacing="-28">7</text>
+  <g fill="#11100f" font-family="'IBM Plex Mono', monospace" font-size="10">
+    <text x="48" y="603">A1 / 12.4</text><text x="48" y="623">A2 / 18.7</text>
+    <text x="48" y="643">A3 / 04.2</text><text x="508" y="603">R 084</text>
+    <text x="508" y="623">G 016</text><text x="508" y="643">B 008</text>
+  </g>
+  <text x="48" y="62" fill="#11100f" font-family="'IBM Plex Mono', monospace" font-size="12" letter-spacing="3">PARALLAX / 07</text>
+  <text x="552" y="62" text-anchor="end" fill="#572419" font-family="'IBM Plex Mono', monospace" font-size="10" letter-spacing="2">MOTION STUDIES 24</text>
+  <rect x="0" y="690" width="600" height="210" fill="#11100f"/>
+  <text x="48" y="756" fill="#f7eee0" font-family="'Cabinet Grotesk', sans-serif" font-size="65" font-weight="700" letter-spacing="-3">SILENT</text>
+  <text x="48" y="818" fill="#ff6d35" font-family="'Cabinet Grotesk', sans-serif" font-size="65" font-weight="700" letter-spacing="-3">TIDE</text>
+  <text x="48" y="857" fill="#8e6b5d" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">THE WATER KEEPS ITS COUNT</text>
+  <text x="552" y="857" text-anchor="end" fill="#ff6d35" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">OFFICIAL FRAME</text>
+</svg>

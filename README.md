@@ -25,6 +25,9 @@ ai-clip-lab/
 | # | Demo | Status |
 |---|------|--------|
 | 06 | [HyperFrames album opening title](./demos/06-hyperframes-opening/) — fixed left index rail, photos sliding in with ease-out, blurred background lagging half a beat | ✅ runnable |
+| 11 | [HyperFrames 3D poster wall](./demos/11-hyperframes-3d-poster-wall/) — directional poster assembly, CSS perspective tilt, and a layered camera cruise | ✅ runnable |
+| 12 | [HyperFrames trigonometric projection room](./demos/12-hyperframes-trig-projection-room/) — one phase drives a unit circle, a sine wall, and a cosine floor | ✅ runnable |
+| 13 | [HyperFrames cinematic coverflow](./demos/13-hyperframes-cinematic-coverflow/) — one continuous center position drives 12 original posters, spatial depth, deceleration, and center-crossing hits | ✅ runnable |
 | — | See [docs/roadmap.md](./docs/roadmap.md) for the full candidate list | 🚧 planning |
 
 Demos will appear here as they land. Status legend: 🚧 planning · 🧪 in progress · ✅ runnable.

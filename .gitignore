@@ -31,6 +31,11 @@ snapshots/
 # 私人照片素材不进公开仓库（用自己的 4 张图放到该目录即可复现 demo）
 demos/06-hyperframes-opening/assets/photo-*.jpg
 demos/06-hyperframes-opening/contact-sheet.jpg
+demos/11-hyperframes-3d-poster-wall/assets/local/
+
+# 教学视频自主学习的本地证据、状态与锁文件
+.learning/runs/
+.learning.lock
 
 # 白名单：CC-BY 音乐（README 已署名）与内置音效，保证 demo 开箱有声
 !demos/06-hyperframes-opening/assets/bgm-carefree.mp3

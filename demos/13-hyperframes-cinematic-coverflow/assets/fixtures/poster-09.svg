@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Deep Field</title>
+  <desc id="desc">Hard black diagonals cross a calm electric-blue deep field.</desc>
+  <defs>
+    <clipPath id="stage"><rect x="44" y="98" width="512" height="558"/></clipPath>
+  </defs>
+  <rect width="600" height="900" fill="#f3f0e7"/>
+  <g clip-path="url(#stage)">
+    <rect x="44" y="98" width="512" height="558" fill="#f3f0e7"/>
+    <g fill="#111111" transform="rotate(-24 300 377)">
+      <rect x="-80" y="102" width="820" height="48"/>
+      <rect x="-80" y="190" width="820" height="20"/>
+      <rect x="-80" y="252" width="820" height="76"/>
+      <rect x="-80" y="380" width="820" height="30"/>
+      <rect x="-80" y="458" width="820" height="110"/>
+      <rect x="-80" y="606" width="820" height="18"/>
+    </g>
+    <circle cx="354" cy="367" r="119" fill="#185cff"/>
+    <circle cx="354" cy="367" r="54" fill="#f3f0e7"/>
+    <circle cx="354" cy="367" r="14" fill="#ff4a31"/>
+    <path d="M354 226V508M213 367H495" stroke="#f3f0e7" stroke-width="2" stroke-dasharray="4 8"/>
+  </g>
+  <rect x="44" y="98" width="512" height="558" fill="none" stroke="#111111" stroke-width="3"/>
+  <text x="48" y="62" fill="#111111" font-family="'IBM Plex Mono', monospace" font-size="12" letter-spacing="3">PARALLAX / 09</text>
+  <text x="552" y="62" text-anchor="end" fill="#77736d" font-family="'IBM Plex Mono', monospace" font-size="10" letter-spacing="2">MOTION STUDIES 24</text>
+  <text x="48" y="740" fill="#111111" font-family="'Cabinet Grotesk', sans-serif" font-size="70" font-weight="700" letter-spacing="-4">DEEP</text>
+  <text x="48" y="807" fill="#185cff" font-family="'Cabinet Grotesk', sans-serif" font-size="70" font-weight="700" letter-spacing="-4">FIELD</text>
+  <path d="M48 830H552" stroke="#111111" stroke-width="2"/>
+  <text x="48" y="857" fill="#77736d" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">DISTANCE HAS NO EDGE</text>
+  <text x="552" y="857" text-anchor="end" fill="#185cff" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">OFFICIAL FRAME</text>
+</svg>
