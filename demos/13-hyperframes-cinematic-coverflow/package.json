@@ -1,0 +1,14 @@
+{
+  "name": "13-hyperframes-cinematic-coverflow",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare:audio": "node generate-audio.mjs",
+    "dev": "node generate-audio.mjs && npx --yes hyperframes@0.7.49 preview",
+    "test": "node generate-audio.mjs && node --test coverflow.test.mjs",
+    "check": "node generate-audio.mjs && node --test coverflow.test.mjs && npx --yes hyperframes@0.7.49 lint && npx --yes hyperframes@0.7.49 validate && npx --yes hyperframes@0.7.49 inspect --samples 21",
+    "inspect:keyframes": "node generate-audio.mjs && npx --yes hyperframes@0.7.49 inspect --at 0.8,6.1,6.55,7,9.3,9.966667",
+    "snapshot": "node generate-audio.mjs && npx --yes hyperframes@0.7.49 snapshot --frames 9",
+    "render": "node generate-audio.mjs && npx --yes hyperframes@0.7.49 render"
+  }
+}

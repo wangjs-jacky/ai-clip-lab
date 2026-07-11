@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Red Current</title>
+  <desc id="desc">Scarlet currents cross a near-black acoustic chamber.</desc>
+  <defs>
+    <pattern id="ticks" width="12" height="12" patternUnits="userSpaceOnUse">
+      <path d="M0 12V8M12 12V4" stroke="#f2e9df" stroke-opacity=".12"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="900" fill="#0b0a0b"/>
+  <rect x="48" y="98" width="504" height="550" fill="url(#ticks)"/>
+  <g fill="none" stroke="#ff3d32">
+    <path d="M48 226C81 226 81 139 114 139s33 183 66 183 33-126 66-126 33 74 66 74 33-185 66-185 33 265 66 265 33-126 66-126 33 39 66 39" stroke-width="7"/>
+    <path d="M48 356C79 356 79 431 110 431s31-167 62-167 31 244 62 244 31-112 62-112 31 72 62 72 31-214 62-214 31 287 62 287 31-178 70-178" stroke-width="3" opacity=".7"/>
+    <path d="M48 516C92 516 92 478 136 478s44 91 88 91 44-191 88-191 44 144 88 144 44-58 88-58 44 72 64 72" stroke-width="11" opacity=".28"/>
+  </g>
+  <line x1="48" y1="621" x2="552" y2="621" stroke="#f2e9df" stroke-opacity=".25"/>
+  <g fill="#f2e9df" font-family="'IBM Plex Mono', monospace" font-size="10">
+    <text x="48" y="117">+1.00</text><text x="48" y="270">0.00</text>
+    <text x="48" y="638">-1.00</text><text x="512" y="638">08:42</text>
+  </g>
+  <circle cx="509" cy="152" r="30" fill="#ff3d32"/>
+  <circle cx="509" cy="152" r="8" fill="#0b0a0b"/>
+  <text x="48" y="62" fill="#ff3d32" font-family="'IBM Plex Mono', monospace" font-size="12" letter-spacing="3">PARALLAX / 05</text>
+  <text x="552" y="62" text-anchor="end" fill="#726c69" font-family="'IBM Plex Mono', monospace" font-size="10" letter-spacing="2">MOTION STUDIES 24</text>
+  <text x="48" y="718" fill="#f2e9df" font-family="'Cabinet Grotesk', sans-serif" font-size="64" font-weight="700" letter-spacing="-3">RED</text>
+  <text x="48" y="781" fill="#ff3d32" font-family="'Cabinet Grotesk', sans-serif" font-size="64" font-weight="700" letter-spacing="-3">CURRENT</text>
+  <path d="M48 825H552" stroke="#ff3d32" stroke-opacity=".6"/>
+  <text x="48" y="852" fill="#726c69" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">THE SIGNAL RUNS UNDERNEATH</text>
+  <text x="552" y="852" text-anchor="end" fill="#ff3d32" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">OFFICIAL FRAME</text>
+</svg>

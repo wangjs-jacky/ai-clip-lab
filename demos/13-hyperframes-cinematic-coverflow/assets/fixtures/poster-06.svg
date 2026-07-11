@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Velvet Signal</title>
+  <desc id="desc">Cobalt arcs carry golden pulses through a pale mirrored field.</desc>
+  <rect width="600" height="900" fill="#eee9df"/>
+  <rect x="42" y="96" width="516" height="558" fill="#1648d8"/>
+  <g fill="none" stroke="#eee9df" stroke-width="18">
+    <ellipse cx="300" cy="375" rx="208" ry="250"/>
+    <ellipse cx="300" cy="375" rx="144" ry="194"/>
+    <ellipse cx="300" cy="375" rx="82" ry="137"/>
+  </g>
+  <rect x="299" y="96" width="2" height="558" fill="#eee9df"/>
+  <g fill="#ffd336">
+    <circle cx="204" cy="235" r="26"/><circle cx="396" cy="235" r="26"/>
+    <circle cx="158" cy="392" r="17"/><circle cx="442" cy="392" r="17"/>
+    <circle cx="236" cy="537" r="31"/><circle cx="364" cy="537" r="31"/>
+    <circle cx="300" cy="375" r="12"/>
+  </g>
+  <g stroke="#1648d8" stroke-width="2">
+    <path d="M42 673H558M42 685H558"/>
+  </g>
+  <text x="48" y="62" fill="#1648d8" font-family="'IBM Plex Mono', monospace" font-size="12" letter-spacing="3">PARALLAX / 06</text>
+  <text x="552" y="62" text-anchor="end" fill="#6b6c72" font-family="'IBM Plex Mono', monospace" font-size="10" letter-spacing="2">MOTION STUDIES 24</text>
+  <text x="48" y="752" fill="#141c35" font-family="'Cabinet Grotesk', sans-serif" font-size="67" font-weight="700" letter-spacing="-3">VELVET</text>
+  <text x="48" y="816" fill="#1648d8" font-family="'Cabinet Grotesk', sans-serif" font-size="67" font-weight="700" letter-spacing="-3">SIGNAL</text>
+  <text x="48" y="854" fill="#6b6c72" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">A SOFT MESSAGE IN BLUE</text>
+  <text x="552" y="854" text-anchor="end" fill="#1648d8" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">OFFICIAL FRAME</text>
+</svg>

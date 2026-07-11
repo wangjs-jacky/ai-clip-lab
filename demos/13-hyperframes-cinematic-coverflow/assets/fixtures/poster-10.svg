@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Paper Moon</title>
+  <desc id="desc">A peach paper moon travels through a violet labyrinth at dusk.</desc>
+  <defs>
+    <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#30205c"/>
+      <stop offset="1" stop-color="#130d2c"/>
+    </linearGradient>
+    <pattern id="micro" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M0 12H24M12 0V24" stroke="#a48cff" stroke-opacity=".08"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="900" fill="url(#dusk)"/>
+  <rect x="44" y="96" width="512" height="560" fill="url(#micro)"/>
+  <g fill="none" stroke="#9a78ff" stroke-width="10" stroke-linejoin="round">
+    <path d="M70 132H318V188H134V244H470V300H238V356H522V412H104V468H390V524H182V580H522"/>
+    <path d="M522 132H376V216H522V272" opacity=".42"/>
+    <path d="M70 608H286V552H70" opacity=".42"/>
+  </g>
+  <g fill="#f6a782">
+    <circle cx="70" cy="132" r="19"/>
+    <circle cx="318" cy="188" r="8"/><circle cx="470" cy="244" r="8"/>
+    <circle cx="238" cy="356" r="8"/><circle cx="104" cy="412" r="8"/>
+    <circle cx="390" cy="524" r="8"/><circle cx="522" cy="580" r="19"/>
+  </g>
+  <circle cx="382" cy="412" r="78" fill="#f6a782" fill-opacity=".13" stroke="#f6a782" stroke-width="2"/>
+  <circle cx="382" cy="412" r="28" fill="#f6a782"/>
+  <text x="48" y="62" fill="#f6a782" font-family="'IBM Plex Mono', monospace" font-size="12" letter-spacing="3">PARALLAX / 10</text>
+  <text x="552" y="62" text-anchor="end" fill="#867aa4" font-family="'IBM Plex Mono', monospace" font-size="10" letter-spacing="2">MOTION STUDIES 24</text>
+  <text x="48" y="733" fill="#f7f0ff" font-family="'Cabinet Grotesk', sans-serif" font-size="67" font-weight="700" letter-spacing="-3">PAPER</text>
+  <text x="48" y="798" fill="#f6a782" font-family="'Cabinet Grotesk', sans-serif" font-size="67" font-weight="700" letter-spacing="-3">MOON</text>
+  <path d="M48 826H552" stroke="#9a78ff" stroke-opacity=".7"/>
+  <text x="48" y="854" fill="#867aa4" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">FOLDED LIGHT FINDS A PATH</text>
+  <text x="552" y="854" text-anchor="end" fill="#f6a782" font-family="'IBM Plex Mono', monospace" font-size="11" letter-spacing="2">OFFICIAL FRAME</text>
+</svg>
